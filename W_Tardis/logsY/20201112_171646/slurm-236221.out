@@ -1,0 +1,31 @@
+[1] "4"
+ # of (max) trials per subject =  144 
+
+[1] 0.375 0.125 0.675 0.250 0.750 0.500
+
+
+SAMPLINGSAMPLING FOR MODEL 'NonCentered_GenBeta_Linear_Social_RiskSafe
+ FOR MODEL '' NOW (CHAIN SAMPLINGNonCentered_GenBeta_Linear_Social_RiskSafe3).
+ FOR MODEL 'NonCentered_GenBeta_Linear_Social_RiskSafe' NOW (CHAIN ' NOW (CHAIN 12).
+).
+Chain 2: 
+Chain 2: Gradient evaluation took 0.052367 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 523.67 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 3: 
+Chain 3: Gradient evaluation took 0.075005 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 750.05 seconds.
+Chain 3Chain : 1Adjust your expectations accordingly!: 
+
+Chain Chain 31: : 
+Gradient evaluation took 0.072936 secondsChain 
+3Chain : 1
+: 1000 transitions using 10 leapfrog steps per transition would take 729.36 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)

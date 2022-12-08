@@ -1,0 +1,788 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<title> DFEDFD-RISK </title> 
+	<script src="jspsych-6.0/jspsych.js"></script>
+	<script src="jspsych-6.0/plugins/jspsych-html-keyboard-response.js"></script>
+	<script src="jspsych-6.0/plugins/jspsych-image-keyboard-response.js"></script>
+	<script src="jspsych-6.0/plugins/jspsych-survey-multi-choice.js"></script>
+	<script src = "jspsych-6.0/plugins/jspsych-fullscreen.js" > </script>
+	<script src="jspsych-6.0/plugins/jspsych-survey-text.js"></script>
+	
+	
+	<!-- these are my self written plugins in the following files everything that is supposed to happen during the experiment is defined./-->
+	<script src="jspsych-6.0/CiriPlugins/jspsych-survey-textNum.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-survey-textAlert.js"></script>
+	
+	<script src = "jspsych-6.0/CiriPlugins/jspsych-RiskProximityGambleSafe.js"> </script>
+	<script src = "jspsych-6.0/CiriPlugins/jspsych-RiskProximityGambleSuperRisky.js"> </script>
+	<script src = "jspsych-6.0/CiriPlugins/jspsych-RiskProximityGambleRisky.js"> </script>
+	<script src = "jspsych-6.0/CiriPlugins/jspsych-RiskProximityMarbleRisky.js"> </script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-soloGambleInstructions.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-socialGambleInstructions.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-DynamicSpecification.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/intermediatePayoff.js"></script>			
+	<script src="jspsych-6.0/CiriPlugins/jspsych-survey-textNum.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-solotrialMarble.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-advicetrialMarbleRisk.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-RiskProximitySafe.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-RiskProximityRisky.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-showGrid.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-slider-grid.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-slider-estimate.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-soloMarbleInstructions.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-socialMarbleInstructions.js"></script>
+	<script src="jspsych-6.0/CiriPlugins/jspsych-ShowGamblePayoff.js"></script>
+	<!-- here is the data stored /-->
+	
+	<script type="text/javascript" src="conditions2.json"></script>
+	<script type = "text/javascript"src = "JSONCondi.json" > </script>
+	
+	<!-- This is in order to do better math /-->
+	<script src="jspsych-6.0/Math/math.js" type="text/javascript"></script>
+	<!-- A Random Number generator /-->
+	<script src=jspsych-6.0/RandomNumberGen/rands.min.js></script>
+	<!-- style /-->
+	<link href="jspsych-6.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>			
+
+	<!-- This is in order to do better math /-->
+	<script src = "jspsych-6.0/Math/math.js" type = "text/javascript"> </script> 
+
+	<!-- A Random Number generator /-->
+	<script src=jspsych-6.0/RandomNumberGen/rands.min.js></script>
+	 
+	<link href = "jspsych-6.0/css/jspsych.css" rel = "stylesheet" type = "text/css"> </link> 
+</head> <body> </body>
+<script>
+	/*
+	ver_050518: 
+	Deleted four conditions in the Gamble task,
+	reduced itis and stuff so i could now save approx 20 Minutes Task Time.
+	I managed to do the Marble Task in 14 Mins.
+	*/
+	var localmode=1 //TOGGLE THIS VARIABLE TO 1 IF YOU WANT	INTO RUN STUFF WITHOUT A SERVER. SHOLD BE SET TO 1 FOR TESTING	 
+	var Gamble0Marble1=1 // Tells the script in which database to save stuff
+	
+	var AllSubsGamble = JSON.parse(JSONCondi); //Here we have the demonstratorData.	 
+	var conditionFile = JSON.parse(text); //read in all the data 
+	var r = new Rands(); // make a new random generator Object. 	 
+	/*at the beginning of every script you need to define the timeline*/
+	var timeline = [];
+	//so i can round many digits. 
+	function precisionRound(number, precision) {
+		var factor = Math.pow(10, precision);
+		return Math.round(number * factor) / factor;
+	}
+	
+	// this is so i can remove stuff from an array and index it.
+	Array.prototype.remove = function(from, to) {
+		var rest = this.slice((to || from) + 1 || this.length);
+		this.length = from < 0 ? this.length + from : from;
+		return this.push.apply(this, rest);
+	};
+	
+	// to find out if a number is odd or even.
+	function isOdd(num) { return num % 2;}
+   
+   
+	/*****************Subject Data************************** Im addinf sth
+	********************************************************************************************************
+	********************************************************************************************************/
+	var geschlechter = ["Maennlich", "Weiblich", "Keine Angabe"];
+	
+	var survey_ProbandenNumber = {
+		type: 'survey-text',
+		questions: [{
+			prompt: "Versuchsleiter: Bitte Probandennummer eingeben.",
+			required: true
+		}],	
+		data: {
+			test_part:'SubNr'
+		},
+		on_finish: function() {
+			// glue the demographics at the end.
+			jsPsych.data.addProperties({
+				subjectNumber: jsPsych.data.get().filter({test_part: 'SubNr'}).last().values()[0].SubID,
+				startTime: new Date()
+			});
+		}
+	};
+	
+	
+	var survey_trialProband = {
+		type: 'survey-textAlert',
+		questions: [{
+			prompt: "Bitte Probandencode eingeben. <br> Der siebenstellige Code setzt sich aus folgenden Angaben zusammen: <br><br>"+
+			"Zweiter Buchstabe des eigenen Vornamens<br>"+
+			"Geburtsmonat des Vaters<br>"+
+			"Dritter Buchstabe des eigenen Geburtsortes<br>"+
+			"Anfangsbuchstabe des Vornamens deiner Mutter<br>"+
+			"Dein Geburts<strong>tag</strong><br><br>"+
+			"Wenn du also zum Beispiel M<strong>E</strong>ike heisst, dein Vater im September <strong>(09)</strong> geboren ist,<br>"+ 
+			"du aus Fr<strong>A</strong>nkfurt kommst und der Vorname deine Mutter <strong>R</strong>egina ist, und du am <strong>05</strong>. eines Monats "+ "Geburtstag hast,<br> dann lautet dein Code: <br>"+ 
+			"<span style=color:red><strong>E09AR05</strong></span><br>"+
+			"Dieser Code dient dazu deine Daten aus verschiedenen Sitzungen ohne Zugriff auf deine Persoenlichen Informationen zu benoetigen wieder zusammenzufuehren<br> Bitte gebe den Code nun unten ein! <br><br>",
+			required: true
+		}],	
+		data: {
+			test_part:'SubID'
+		},
+		on_finish: function() {
+			// glue the demographics at the end.
+			jsPsych.data.addProperties({
+				subject: jsPsych.data.get().filter({test_part: 'SubID'}).last().values()[0].SubID,
+			});
+		}
+	};
+	
+
+	var survey_trial = {
+		type: 'survey-textNum',
+		questions: [{
+			prompt: "Bitte Alter eingeben",
+			required: true
+		}],
+		data: {
+			test_part:'age'
+		},
+		on_finish: function() {
+			// glue the demographics at the end.
+			jsPsych.data.addProperties({
+				age:   jsPsych.data.get().filter({test_part: 'age'}).last().values()[0].age
+			});
+		}
+	};
+
+	var multi_select_block = {
+		type: 'survey-multi-choice',
+		questions: [{
+			prompt: "Geschlecht",
+			options: geschlechter,
+			required: true
+		}],
+		data: {
+			test_part:'sex'
+		},
+		required: true,
+		on_finish: function() {
+			// glue the demographics at the end.
+			jsPsych.data.addProperties({
+				sex:   jsPsych.data.get().filter({test_part: 'sex'}).last().values()[0].sex
+			});
+		}
+	};
+
+	timeline.push(survey_ProbandenNumber)
+	//timeline.push(survey_trialProband)
+	timeline.push(survey_trial)
+	timeline.push(multi_select_block)
+
+	 
+	 
+  
+	/*****************Stimuli
+	********************************************************************************************************
+	********************************************************************************************************/	 
+
+
+	/*Here i define the stimuli that i want to hand over to the trial script.*/
+	var factors = {
+		GambleStim: ["img/05.png", "img/025.png", "img/075.png", "img/0675.png", "img/0125.png", "img/0375.png"],
+		value: [ 8, 20, 50],
+		condition:[1,3]
+	}
+	
+	/*DEBUG  
+	var factors = {
+	GambleStim: ["img/05.png"],
+	value: [ 8],
+	condition:[1]
+	}
+	*/
+	
+	var full_design = new Array();
+	full_design=jsPsych.randomization.factorial(factors, 1);
+	// ok now that i have my nice randomized full design i want to delete some obvious stimulus combinations in order to save some time.
+	/*	for (i=0;i<full_design.length;i++){
+	if (full_design[i].GambleStim=="img/075.png" && full_design[i].value==50){
+	full_design.remove(i)
+	} else if (full_design[i].GambleStim=="img/025.png" && full_design[i].value==8){
+	full_design.remove(i)
+	}
+	}
+	*/
+
+	//MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START
+	/***********************************************************************************************************************************************************************************
+	/***********************************************************************************************************************************************************************************
+	********************************************************HERE THE MARBLE STUFF IS DEFINED***************************************************************************************************** *****************************************************************************************************************************************************************************
+	*************************************************************************************************************************************************************************************
+	************************************************************************************************************************************************************************************/
+	//MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START MARBLE START
+	
+	var full_design = new Array();
+	full_design=jsPsych.randomization.factorial(factors, 1);
+	
+	//this one saves the current timeline variables in the datastructure. 
+	var as_conditional_helper ={
+		type:"DynamicSpecification",
+		stimulus:"Specification saved",
+		probability: jsPsych.timelineVariable('GambleStim'), //take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		valueGamble: jsPsych.timelineVariable('value'),
+		condition: jsPsych.timelineVariable('condition'),
+		data: {
+			test_part:'timeline_helper'
+		}
+	}
+	/*****************HERE I RANDOMIZE THE DESIGN AND DEFINE MY EXPERIMENTAL CONDITIONS**************************
+	********************************************************************************************************
+	********************************************************************************************************/
+
+	jsPsych.ALL_KEYS
+	
+	var MarbleCue ={
+		type:"image-keyboard-response",
+		stimulus:"img/Marble/DunnoMarbles.png",
+		choices: jsPsych.NO_KEYS, //take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		trial_duration: 1000,
+		response_ends_trial: false
+	}
+	/*****************HERE I SET UP THE TASK AND TRIALS AND CALL THE SELFMADE PLUGINS**************************
+	********************************************************************************************************
+	********************************************************************************************************/
+	var soloChoiceTrialMarble = {
+		type: "solotrialMarble",
+		stimulus1: 'img/Marble/BlueMarbles.png',
+		stimulus2: 'img/Marble/DunnoMarbles.png', //take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		probability: jsPsych.timelineVariable('GambleStim'), //take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		valueGamble: jsPsych.timelineVariable('value'),
+		choices: ['f', 'j'],
+		response_ends_trial: true,
+		lookUpLastTrial: false,
+		condition: jsPsych.timelineVariable('condition'),
+		//	trial_duration: 500,
+		data: {
+			test_part:'SoloChoiceMarble'
+		}
+	};
+
+
+	// SOCIAL INFO TRIAL ALWAYS NEEDS TO PRECEED THE SOCIAL CHOICE TRIAL...
+	// In this trial - the same stimuli as used by the solo trials but a frame appears around the 
+	// option someone else chose in a previous experiment.
+	var socialInfoTrialMarble = {
+		type: "advicetrialMarbleRisk",
+		stimulus1: 'img/Marble/BlueMarbles.png',
+		stimulus2: 'img/Marble/DunnoMarbles.png',
+		probability: jsPsych.timelineVariable('GambleStim'), //take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		valueGamble: jsPsych.timelineVariable('value'),
+		//take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		choices: jsPsych.NO_KEYS,
+		response_ends_trial: false,
+		lookUpLastTrial: false, //thats were info is presented
+		condition: jsPsych.timelineVariable('condition'),
+		trial_duration: 500
+	};
+
+	//NOW THE SOCIAL CHOICE TRIAL ONLY WORKS IF CheckRiskProximity has been executed before.
+	var socialChoiceTrialMarble = {
+		type: "advicetrialMarbleRisk",
+		stimulus1: 'img/Marble/BlueMarbles.png',
+		stimulus2: 'img/Marble/DunnoMarbles.png',
+		probability: jsPsych.timelineVariable('GambleStim'), //take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		valueGamble: jsPsych.timelineVariable('value'),
+		//take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		choices: ['f', 'j'],
+		response_ends_trial: true,
+		lastTrial: jsPsych.data.get().last(1).values()[0],
+		lookUpLastTrial: true, //thats where people have to choose themselves
+		condition: jsPsych.timelineVariable('condition'),
+		
+		//	trial_duration: 500,
+		data: {
+			test_part: 'SocialChoice'
+		}
+	};
+
+	// marble info trial is one draw of the urn. 
+	// each draw of the urn results in a sequence of 9 differently colored marbels
+	// of which blue are indicative of a positive; red indicative of a negative outcome
+	// grey marbles are placeholder and could be both -  red or blue.
+	//TODO: MAYBE LOOK INTO THE PLUGINS CODE AND PUT STUFF IN THE TABLE.... IDK
+	var marble_info_trialMarble = {
+		type: 'showGrid',
+		safeball: 'img/Marble/Blue_new.png',
+		riskyball: 'img/Marble/Red_new.png',
+		neutralball: 'img/Marble/Grey_new.png',
+		trial_duration: 500, //needs to be longer than 7500 because each stimulus is shown for a second (5*1000) + (5*500 fixation cross)
+		condition: jsPsych.timelineVariable('condition'),
+		valueGamble: jsPsych.timelineVariable('value'),
+		probability: jsPsych.timelineVariable('GambleStim'), //take the last stimulus 2 from the timelinevariable to make a choice trail out of it
+		data: {
+			test_part: 'marbleInfo'
+		}
+		//: 'Hello world!'
+	};
+	//make the trial a timeline object that can be skipped according to the timeline variable.
+	
+	// sth to think about: shall there be a trial duration...???
+	var estimationMarble = {
+		type: 'html-slider-grid',
+		safeball: 'img/Marble/Blue_new.png',
+		riskyball: 'img/Marble/Red_new.png',
+		condition: jsPsych.timelineVariable('condition'),
+		
+		//	trial_duration: 500 //needs to be longer than 7500 because each stimulus is shown for a second (5*1000) + (5*500 fixation cross)
+	}
+
+	
+	/********** THIS IS WHERE THE INSTRUCTIONS AND FEEDBACKS ANND SO ON ARE WORKED OUT***********
+	
+	********************************************************************/
+
+
+	//soloMarble Instructions comes with a switch that eveluates what the previous response was and shows either the previous or the next sreen for instructions..
+	var IntroSoloMarble = {
+		type: 'soloMarbleInstructions',
+		//trial_duration:5000,
+		choices: ['f', 'j'],
+		response_ends_trial: true,
+		on_start:function(){
+			Gamble0Marble1=1;
+			return;
+		}
+	}
+
+	var IntroSocialMarble = {
+		type: 'socialMarbleInstructions',
+		//trial_duration:5000,
+		choices: ['f', 'j'],
+		response_ends_trial: true,
+		on_start:function(){
+			Gamble0Marble1=1;
+			return;
+		}
+	}
+
+	// There is a Variable in IntroSolo which is called Start Experiment. If it says yes, then the intro Block ends and the Experiment starts.
+	// otherwise this function loops through the different instruction screens.	
+	var introLoopMarble = {
+		timeline: [IntroSoloMarble],
+		loop_function: function(data) {
+			if (data.values()[0].startExperiment) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+ 
+	// There is a Variable in IntroSolo which is called Start Experiment. If it says yes, then the intro Block ends and the Experiment starts.
+	// otherwise this function loops through the different instruction screens.	
+	var introLoopSocialMarble = {
+		timeline: [IntroSocialMarble],
+		loop_function: function(data) {
+			if (data.values()[0].startExperiment) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+
+	var fixationMarble = { // i put everything in this container but hide all stimuli. I want the layout to be the same evertime.
+		type: 'html-keyboard-response',
+		stimulus: "<table style='width:100%'>" +
+		"<tr> <th></th> <th style= 'visibility: hidden;'>Du musst dich entscheiden</th> <th></th></tr>" +
+		"<tr>" +
+		"<td><div class ='unselected' style= 'visibility: hidden;' id='left' ><img src=img/Blue_new.png id='jspsych-image-keyboard-response-stimulus1' height='300' width='300'></img></td>" + //the selected Option.
+		"<td><div style='font-size:60px;'> <p> + </p> </div></td>" +
+		"<td><div class='unselected' id='right' style= 'visibility: hidden;'><img src=img/Blue_new.png id='jspsych-image-keyboard-response-stimulus2' height='300' width='300'></img></td>" +
+		"</tr>" +
+		"<tr>" +
+		"<td><p class='small' style= 'visibility: hidden;' >Druecke <strong> 'F' </strong> um aus diesem Glas zu ziehen. </p>" +
+		"<p style= 'visibility: hidden;' >Inhalt: </p> <p style= 'visibility: hidden;' ><img src= id='jspsych-image-keyboard-response-stimulus1'height='20' width='20'> fuer <strong>5</strong> Bonuspunkte</p> " +				
+		"<p class='small' style= 'visibility: hidden;'> <img src= height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +// also hide this. i just want everything to look symmetrical.
+		"<td><p><div class='center' style= 'visibility: hidden;'><img src='img/Anon_Woman.jpg' height='200' width='200'</img></div></td>" + // the advisor shall always be hidden.				
+		"<td><p class='small' style= 'visibility: hidden;' >Druecke <strong> 'J' </strong> um aus diesem Glas zu ziehen. " +
+		"<p style= 'visibility: hidden;' >Inhalt:</p>" +
+		"<p style= 'visibility: hidden;' ><img src= height='20' width='20'> fuer <strong>1000</strong> Bonuspunkte oder" +
+		"<p class='small' style= 'visibility: hidden;' > </strong>  <img src=height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+		"</tr>" +
+		"</table>",
+	 
+	 
+					
+		choices: jsPsych.NO_KEYS,
+		trial_duration: function() {
+			return jsPsych.randomization.sampleWithReplacement([1000,750,500], 1)[0]; /*this cool thing randomly jitters my fixation cross.*/
+		},
+		data: {
+			test_part: 'fixation'
+		}
+	};
+
+
+	//this one defines the procedure that is executed when marbles are drawn from the jar.
+	//The timeline variables is the index to retrieve the trial id in the lower level of the script hierachy.	 
+	//1*18Stimulus Presentations.
+	//this feedback call only works if the last trial was a choice trial which declares the two possible options as
+	// stimulus1 and stimulus2 
+	var feedbackMarble = {
+		type: 'html-keyboard-response',
+		stimulus: function() {
+			var last_keypress = jsPsych.data.get().last(1).values()[0].key_press // thats how to acces the last input.
+			var Order_Changed = jsPsych.data.get().last(1).values()[0].changed_Order // thats how to acces the last input. 
+			if (last_keypress == 70 && !Order_Changed) {
+				return  "<table style='width:100%'>" +
+				"<tr> <th></th> <th>Waehle eine Option!</th> <th></th></tr>" +
+				"<tr>" +
+				"<td><div class ='selected' id='left' ><img src="  + jsPsych.data.get().last(1).values()[0].stimulus1 + " id='jspsych-image-keyboard-response-stimulus1'height='300' width='300'></img></td>" +
+				"<td><div style='font-size:60px;'> <p> + </p> </div></td>" +
+				"<td><div class='unselected' id='right' ><img src="  + jsPsych.data.get().last(1).values()[0].stimulus2 + " id='jspsych-image-keyboard-response-stimulus2'height='300' width='300'></img></td>" +
+				"</tr>" +
+				"<tr>" +
+				"<td><p class='small'>Druecke <strong> 'F' </strong> um aus diesem Glas zu ziehen. </p>" +
+				"<p>Inhalt: </p> <p><img src='img/Marble/Blue_new.png' id='jspsych-image-keyboard-response-stimulus1'height='20' width='20'> fuer <strong> 5 </strong> Bonuspunkte</p> " +				
+				"<p class='small' style= 'visibility: hidden;'> <img src='img/Marble/Red_new.png' height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+				// also hide this. i just want everything to look symmetrical.
+				"<td><p><div class='center'  style='visibility: hidden;'><img src='img/Anon_Woman.jpg' height='200' width='200'</img></div></td>" + // the advisor shall always be hidden.								
+				"<td><p class='small'>Druecke <strong> 'J' </strong> um aus diesem Glas zu ziehen. " +
+				"<p>Inhalt:</p>" +
+				"<p><img src='img/Marble/Blue_new.png' height='20' width='20'> fuer <strong> "+ jsPsych.data.get().last(1).values()[0].valueGamble +" </strong> Bonuspunkte oder" +
+				"<p class='small'> </strong>  <img src='img/Marble/Red_new.png' height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+				"</tr>" +
+				"</table>"
+			} else if (last_keypress == 74 && !Order_Changed) { // subject pressed right. safe left risk right
+				return "<table style='width:100%'>" +
+				"<tr> <th></th> <th>Waehle eine Option!</th> <th></th></tr>" +
+				"<tr>" +
+				"<td><div class ='unselected' id='left' ><img src="  + jsPsych.data.get().last(1).values()[0].stimulus1 + " id='jspsych-image-keyboard-response-stimulus1'height='300' width='300'></img></td>" +
+				"<td><div style='font-size:60px;'> <p> + </p> </div></td>" +
+				"<td><div class='selected' id='right' ><img src="  + jsPsych.data.get().last(1).values()[0].stimulus2 + " id='jspsych-image-keyboard-response-stimulus2'height='300' width='300'></img></td>" +
+				"</tr>" +
+				"<tr>" +
+				"<td><p class='small'>Druecke <strong> 'F' </strong> um aus diesem Glas zu ziehen. </p>" +
+				"<p>Inhalt: </p> <p><img src='img/Marble/Blue_new.png' id='jspsych-image-keyboard-response-stimulus1'height='20' width='20'> fuer <strong> 5 </strong> Bonuspunkte</p> " +				
+				"<p class='small' style= 'visibility: hidden;'> <img src='img/Marble/Red_new.png' height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+				// also hide this. i just want everything to look symmetrical.
+				"<td><p><div class='center'  style='visibility: hidden;'><img src='img/Anon_Woman.jpg' height='200' width='200'</img></div></td>" + // the advisor shall always be hidden.								
+				"<td><p class='small'>Druecke <strong> 'J' </strong> um aus diesem Glas zu ziehen. " +
+				"<p>Inhalt:</p>" +
+				"<p><img src='img/Marble/Blue_new.png' height='20' width='20'> fuer <strong> "+ jsPsych.data.get().last(1).values()[0].valueGamble +" </strong> Bonuspunkte oder" +
+				"<p class='small'> </strong>  <img src='img/Marble/Red_new.png' height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+				"</tr>" +
+				"</table>"
+			
+			} else if (last_keypress == 70 && Order_Changed) { //subject pressed left. safe right risk left
+				return "<table style='width:100%'>" +
+				"<tr> <th></th> <th>Waehle eine Option!</th> <th></th></tr>" +
+				"<tr>" +
+				"<td><div class ='selected' id='left' ><img src="  + jsPsych.data.get().last(1).values()[0].stimulus2 + " id='jspsych-image-keyboard-response-stimulus1'height='300' width='300'></img></td>" +
+				"<td><div style='font-size:60px;'> <p> + </p> </div></td>" +
+				"<td><div class='unselected' id='right' ><img src="  + jsPsych.data.get().last(1).values()[0].stimulus1 + " id='jspsych-image-keyboard-response-stimulus2'height='300' width='300'></img></td>" +
+				"</tr>" +
+				"<tr>" +
+				"<td><p class='small'>Druecke <strong> 'F' </strong> um aus diesem Glas zu ziehen. </p>" +
+				"<p>Inhalt: </p> <p><img src='img/Marble/Blue_new.png' id='jspsych-image-keyboard-response-stimulus1'height='20' width='20'> fuer <strong>"+ jsPsych.data.get().last(1).values()[0].valueGamble +"</strong> Bonuspunkte</p> " +				
+				"<p class='small'> <img src='img/Marble/Red_new.png' height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+				// also hide this. i just want everything to look symmetrical.
+				"<td><p><div class='center'  style='visibility: hidden;'><img src='img/Anon_Woman.jpg' height='200' width='200'</img></div></td>" + // the advisor shall always be hidden.								
+				"<td><p class='small'>Druecke <strong> 'J' </strong> um aus diesem Glas zu ziehen. " +
+				"<p>Inhalt:</p>" +
+				"<p><img src='img/Marble/Blue_new.png' height='20' width='20'> fuer <strong> 5 </strong> Bonuspunkte oder" +
+				"<p class='small' style= 'visibility: hidden;'> </strong>  <img src='img/Marble/Red_new.png' height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+				"</tr>" +
+				"</table>"
+			} else if (last_keypress == 74 && Order_Changed) { // subject pressed right. safe right risk left
+				return "<table style='width:100%'>" +
+				"<tr> <th></th> <th>Waehle eine Option!</th> <th></th></tr>" +
+				"<tr>" +
+				"<td><div class ='unselected' id='left' ><img src="  + jsPsych.data.get().last(1).values()[0].stimulus2 + " id='jspsych-image-keyboard-response-stimulus1'height='300' width='300'></img></td>" +
+				"<td><div style='font-size:60px;'> <p> + </p> </div></td>" +
+				"<td><div class='selected' id='right' ><img src="  + jsPsych.data.get().last(1).values()[0].stimulus1 + " id='jspsych-image-keyboard-response-stimulus2'height='300' width='300'></img></td>" +
+				"</tr>" +
+				"<tr>" +
+				"<td><p class='small'>Druecke <strong> 'F' </strong> um aus diesem Glas zu ziehen. </p>" +
+				"<p>Inhalt: </p> <p><img src='img/Marble/Blue_new.png' id='jspsych-image-keyboard-response-stimulus1'height='20' width='20'> fuer <strong>"+ jsPsych.data.get().last(1).values()[0].valueGamble +"</strong> Bonuspunkte</p> " +				
+				"<p class='small'> <img src='img/Marble/Red_new.png' height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+				// also hide this. i just want everything to look symmetrical.
+				"<td><p><div class='center'  style='visibility: hidden;'><img src='img/Anon_Woman.jpg' height='200' width='200'</img></div></td>" + // the advisor shall always be hidden.								
+				"<td><p class='small'>Druecke <strong> 'J' </strong> um aus diesem Glas zu ziehen. " +
+				"<p>Inhalt:</p>" +
+				"<p><img src='img/Marble/Blue_new.png' height='20' width='20'> fuer <strong> 5 </strong> Bonuspunkte oder" +
+				"<p class='small' style= 'visibility: hidden;'> </strong>  <img src='img/Marble/Red_new.png' height='20' width='20'> fuer 0 Bonuspunkte. </p></td>" +
+				"</tr>" +
+				"</table>"
+			} else {
+				return '<p> zu langsam';
+			}
+		}, //endstimulus display
+		trial_duration: 500,
+		choices: jsPsych.NO_KEYS
+	};
+
+
+	//this goes through the json file all subjets and calculates THIs subjects pecentage of risky choice as
+	//as well as all of the other subjects risk attitude
+	var RiskProximityMarbleRisky = {
+		type: 'riskProximity_MarbleRisky',
+		stimulus_duration: 5000,
+		data: {
+			test_part: 'RiskProximityMarbleRisky'
+		},
+	}
+	var RiskProximityMarbleRiskyTML={
+		timeline: [RiskProximityMarbleRisky]
+	}
+
+	/*++++++++++++++++++ show payoff every 5 times
+	************************************************
+	***********************************************/
+	var if_trialMarble = {
+		type: 'intermediatePayoff',
+		stimulus: "Man muss wirklich fuer jede beschissene scheisse ein neues plugin schreiben.",
+		trial_duration:4000
+	}
+	var howSureMarble = {
+		type: 'html-slider-estimate',
+		stimulus: "Man muss wirklich fuer jede beschissene scheisse ein neues plugin schreiben.",
+		//trial_duration:1000
+	}
+	
+	/*If the conditional function evaluates to true, the timeline will execute normally. If the conditional function evaluates to false, then the timeline will be skipped. 
+	The conditional function is evaluated whenever the timeline is about to run the first trial. */
+	var ifTrailcount=0;//counter. If you want to 
+	var if_nodeMarble = {
+		timeline: [if_trialMarble],
+		conditional_function: function(){
+			// get the data from the previous trial,
+			// and check which key was pressed
+			if(ifTrailcount == 5){
+				ifTrailcount=0;
+				return true;
+			} else {
+				ifTrailcount++;
+				return false;
+			}
+		}
+	}
+	
+	var breakDisplay = {
+		type: 'html-keyboard-response',
+		stimulus: "<font size=20>Pause!</font> <p> Vielen Dank! Du hast dir eine kleine Pause verdient. <p>"+
+		"<p style=color:green>Wenn du soweit bist, druecke 'J' um fortzufahren.</p>",
+		choices: ['j']
+	}
+	
+	var breakBeforeRepetition=full_design.length
+	var breakCount=0
+	
+	var ShortBreak = {
+		timeline: [breakDisplay],
+		conditional_function: function(){
+			// get the data from the previous trial,
+			// and check which key was pressed
+			if(breakCount == breakBeforeRepetition){
+				breakCount=0;
+				return true;
+			} else {
+				breakCount++;
+				return false;
+			}
+		}
+	}
+ 
+ 
+	var certaintyEstimateMarble = {
+		timeline: [howSureMarble]
+	/*	conditional_function: function(){
+			//check if the trialID and take out conditions of interest.
+			if ((jsPsych.data.get().filter({trial_type: 'showGrid'}).last().values()[0].probGamble == 0.125 && jsPsych.data.get().filter({trial_type: 'showGrid'}).last().values()[0].condition == 1) ||
+				(jsPsych.data.get().filter({trial_type: 'showGrid'}).last().values()[0].probGamble == 0.75 && jsPsych.data.get().filter({trial_type: 'showGrid'}).last().values()[0].condition == 1) ||
+				(jsPsych.data.get().filter({trial_type: 'showGrid'}).last().values()[0].probGamble == 0.125 && jsPsych.data.get().filter({trial_type: 'showGrid'}).last().values()[0].condition == 2) ||
+				(jsPsych.data.get().filter({trial_type: 'showGrid'}).last().values()[0].probGamble == 0.75 && jsPsych.data.get().filter({trial_type: 'showGrid'}).last().values()[0].condition == 2) )
+			{
+				return true;
+			} else {
+				return false;
+			}
+		},*/
+		//trial_duration:1000
+	} 
+ 
+	/******************** THE Practice Trials are defined here.
+	*****************************************************************/
+	/*var PracticeTrials = {
+		GambleStim: ["img/05.png", "img/025.png", "img/075.png", "img/0675.png", "img/0125.png"],
+		value: [ 8 ],
+		condition:[1]
+	}*/
+		/* SNAPSHOTS */
+		var PracticeTrials = {
+				GambleStim: ["img/075.png"],
+				value: [ 20 ],
+				condition:[1]
+			}
+		
+	practice=jsPsych.randomization.factorial(PracticeTrials, 1);
+	
+	/* I SKIP THEM FOR NOW.*/
+	var PracticeIntroMarble = {
+		type: 'html-keyboard-response',
+		stimulus: "<p>Gleich beginnen einige Uebungsdurchgaenge, damit du dich an die Aufgabe gewoehnen kannst.</p> <p> Hier musst du noch keine Entscheidungen treffen. </p>",
+		trial_duration: 10000,
+		choices: jsPsych.NO_KEYS,
+	}
+	
+	//make it a timeline so i can skip it
+	var PracticeInfo={
+		timeline:[PracticeIntroMarble]
+	}
+
+	var PracticeTrialsMarble = {
+		timeline: [marble_info_trialMarble, fixationMarble, estimationMarble],
+		timeline_variables: practice,
+		randomize_order: false,
+		repetitions: 1,
+		data: {
+			test_part: 'PracticeTrials'
+		}
+	}
+	
+	/*
+	If the conditional function evaluates to true, the timeline will execute normally. If the conditional function evaluates to false, then the timeline will be skipped. 
+	The conditional function is evaluated whenever the timeline is about to run the first trial. */
+	var marble_info_trialMarbleCondi = {
+		timeline:[MarbleCue,marble_info_trialMarble,estimationMarble,certaintyEstimateMarble],
+		conditional_function: function(){
+			// get the data from the previous trial,
+			// and check which key was pressed
+			if (jsPsych.data.get().filter({test_part: 'timeline_helper'}).last().values()[0].condition == 3){
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+	/******************** THE EXPERIMENTAL PROCEDURES ARE DEFINED HERE
+	*****************************************************************/
+	var  SeriousMarble= {
+		type: 'html-keyboard-response',
+		stimulus: "Achtung! Jetzt beginnt das eigentliche Experiment! Jetzt sind deine Entscheidungen echtes Geld wert!",
+		trial_duration: 5000,
+		choices: jsPsych.NO_KEYS,
+	}
+	var SeriousInfo={
+		timeline:[SeriousMarble]
+	}
+	
+	var soloTestProcedureMarble = {
+		timeline: [as_conditional_helper,fixationMarble,marble_info_trialMarbleCondi, soloChoiceTrialMarble, feedbackMarble,if_nodeMarble,ShortBreak],
+		timeline_variables: full_design,
+		randomize_order: false,
+		repetitions: 2,
+		data: {
+			test_part:'Solotrial'
+		}
+	} //end 1 trial
+
+	var socialTestProcedureMarble = {
+		timeline: [as_conditional_helper,fixationMarble,marble_info_trialMarbleCondi, socialInfoTrialMarble, socialChoiceTrialMarble, feedbackMarble,if_nodeMarble,ShortBreak],
+		timeline_variables: full_design,
+		randomize_order: false,
+		repetitions: 2,
+		data: {
+			test_part:'SocialTrial'
+		}
+	} //end 1 trial//UNCOMMENT FOR DEBUGGING A SINGLE DRAW FROM THE JAR
+	//timeline.push(marble_info_trial);
+
+
+	/********************** HERE I PUT EVERYTHING TOGETHER AND DETERMINE WHAT IS SHOWN
+	**********************************************************************************/
+
+
+	timeline.push(introLoopMarble);
+	timeline.push(PracticeInfo);
+	timeline.push(PracticeTrialsMarble);
+
+	//this one overwrites the trial data and sets the payoff to 0. because these were practice trials.
+	timeline.push(SeriousInfo);
+	timeline.push(soloTestProcedureMarble);
+	timeline.push(RiskProximityMarbleRiskyTML);
+	//here follows the whole experimental procedure.	 j
+	timeline.push(introLoopSocialMarble);
+	timeline.push(socialTestProcedureMarble);
+	
+
+	var DisplayPayoffMarble = {
+		type: "ShowGamblePayoff",
+		stimulus: "....",
+		choices: ['q'],
+		response_ends_trial:true
+	};
+ 
+	timeline.push(DisplayPayoffMarble);
+
+	/*MY CODE IS A MESS BY NOW.
+	*/
+
+	jsPsych.init({
+		timeline: timeline,
+		on_data_update: function(data) {
+			if (localmode==0){
+				saveData();
+				console.log("dataupdate")
+			}
+		},
+		on_finish: function() {
+			// glue the demographics at the end.
+			if (localmode==1){
+				jsPsych.data.get().localSave('json', 'Gamble.json');
+			}
+			jsPsych.data.displayData();
+		},
+
+	}); 
+
+	function saveData() {
+		// Antonio: As long as we are developing on this we will use this address
+		// var webServerURL = "https://arc-srv-webdev.mpib-berlin.mpg.de/gamble-marble-ocu/OCU/"
+		// later on after piloting we will move it to the productive environment here
+		// var webServerURL = "arc-srv-web2.mpib-berlin.mpg.de/gamble-marble-ocu/OCU"
+
+		var xhr = new XMLHttpRequest();
+		// Depending on which part of the experiment we are in; save data in the correct database pls.
+		if (Gamble0Marble1==0){
+			xhr.open('POST', './wbsrv-comm/write_data_gamble.php'); // change 'write_data.php' to point to php script.
+		}else if (Gamble0Marble1==1){
+			xhr.open('POST', './wbsrv-comm/write_data_marble.php'); // change 'write_data.php' to point to php script.
+		}
+		xhr.setRequestHeader('Content-Type', 'application/json');
+  
+		xhr.onload = function() {
+    
+			if(xhr.status == 200){
+				try{
+					var response = JSON.parse(xhr.responseText);
+				}
+				catch(e){
+					var div = document.createElement("div");
+					div.setAttribute("style","color:red;");
+					var textnode = document.createTextNode("Error occured while saving to the remote database! <br />Make sure to download this file otherwise all the data is lost!");
+					div.appendChild(textnode);                              // Append the text to <li>
+					var body = document.getElementsByTagName("body")[0];
+					body.appendChild(div);
+    		
+					console.log("Error occured:" + e.toString());
+					jsPsych.data.get().localSave('json', 'Gamble.json'); // here i need to look into before i really continue
+				}
+			}
+		};
+
+		xhr.send(jsPsych.data.getLastTrialData().json());
+	}
+
+	</script>
+	</html>

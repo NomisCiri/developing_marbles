@@ -1,0 +1,1231 @@
+[1] "4"
+ # of (max) trials per subject =  132 
+
+[1] 0.375 0.125 0.675 0.250 0.750 0.500
+
+SAMPLING FOR MODEL 'NonCentered_GenBeta_Linear_Social_RiskSafe' NOW (CHAIN 3).
+
+
+SAMPLINGSAMPLING FOR MODEL ' FOR MODEL 'NonCentered_GenBeta_Linear_Social_RiskSafeNonCentered_GenBeta_Linear_Social_RiskSafe' NOW (CHAIN ' NOW (CHAIN 12).
+).
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain 2Chain 31: Rejecting initial value:: Rejecting initial value:: 
+
+Chain Rejecting initial value:Chain 23: 
+:   Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+Chain 
+Chain 31Chain 2: : : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+  Error evaluating the log probability at the initial value.
+Chain 3
+Chain 2: Rejecting initial value:Chain : Rejecting initial value:
+Chain 1
+Chain 3: : 2:   Error evaluating the log probability at the initial value.
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+Chain 3
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+1
+Chain 3: Chain 2: Rejecting initial value:Rejecting initial value:: Rejecting initial value:
+Chain 
+
+Chain 3: Chain 2:   Error evaluating the log probability at the initial value.
+1  Error evaluating the log probability at the initial value.
+Chain : Chain 23:   Error evaluating the log probability at the initial value.: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain Chain 23: 1: Rejecting initial value:Rejecting initial value:
+: 
+Chain Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2: :   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+
+Chain Chain Chain 23: 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: 
+Chain Rejecting initial value:Chain 23: 
+: Rejecting initial value:Rejecting initial value:
+Chain 
+Chain Chain 312: :   Error evaluating the log probability at the initial value.:   Error evaluating the log probability at the initial value.
+
+Chain   Error evaluating the log probability at the initial value.Chain 23: 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 
+Chain 31Chain 2: Rejecting initial value:: : Rejecting initial value:
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: 
+2:   Error evaluating the log probability at the initial value.
+Chain   Error evaluating the log probability at the initial value.
+Chain 31Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Rejecting initial value:
+Chain 3
+Chain 2: Rejecting initial value:Chain : Rejecting initial value:
+Chain 1
+Chain 3: : 2:   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+Chain 3
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain : 
+1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Chain 2: Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:
+Chain 
+
+Chain 3: Chain 2:   Error evaluating the log probability at the initial value.
+1  Error evaluating the log probability at the initial value.
+Chain 3: Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain 3Chain Chain 2: Rejecting initial value:1: Rejecting initial value:
+Chain : 
+Chain 3  Error evaluating the log probability at the initial value.2: :   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+
+Chain Chain Chain 23: 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: 
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 23: 
+: Rejecting initial value:Rejecting initial value:
+Chain 
+Chain Chain 312: :   Error evaluating the log probability at the initial value.:   Error evaluating the log probability at the initial value.
+
+Chain Rejecting initial value:Chain 23: 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 
+Chain 31Chain 2: Rejecting initial value:: : Rejecting initial value:
+Chain   Error evaluating the log probability at the initial value.
+Chain 3: 
+2:   Error evaluating the log probability at the initial value.
+Chain   Error evaluating the log probability at the initial value.
+Chain 31Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3
+Chain 2: Rejecting initial value:Chain : Rejecting initial value:
+Chain 1
+3: : Chain 2  Error evaluating the log probability at the initial value.
+Rejecting initial value::   Error evaluating the log probability at the initial value.Chain 3
+
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 2: 
+1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Chain 2: Rejecting initial value:  Error evaluating the log probability at the initial value.: Rejecting initial value:
+Chain 
+
+Chain 3: Chain 2:   Error evaluating the log probability at the initial value.
+1  Error evaluating the log probability at the initial value.
+Chain 3: Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain 3Chain Chain 2: Rejecting initial value:1: Rejecting initial value:
+Chain : 
+Chain 3: Rejecting initial value:2:   Error evaluating the log probability at the initial value.
+
+  Error evaluating the log probability at the initial value.
+Chain 3Chain Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain   Error evaluating the log probability at the initial value.Chain 23: 
+: Rejecting initial value:Rejecting initial value:
+Chain 
+Chain Chain 312: :   Error evaluating the log probability at the initial value.:   Error evaluating the log probability at the initial value.
+
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 23: 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 31Chain 2: Rejecting initial value:: : Rejecting initial value:
+Rejecting initial value:
+Chain Chain 3
+2: :   Error evaluating the log probability at the initial value.Chain   Error evaluating the log probability at the initial value.
+
+Chain 1Chain 23: : : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+  Error evaluating the log probability at the initial value.
+Chain 3
+Chain 2: Rejecting initial value:Chain : Rejecting initial value:
+Chain 1
+Chain 3: : 2:   Error evaluating the log probability at the initial value.
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+Chain 3
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+1
+Chain 3: Chain 2: Rejecting initial value:Rejecting initial value:: Rejecting initial value:
+Chain 
+
+Chain 3Chain 2: :   Error evaluating the log probability at the initial value.1  Error evaluating the log probability at the initial value.
+
+Chain : Chain 23:   Error evaluating the log probability at the initial value.: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain 3Chain Chain 2: Rejecting initial value:1: Rejecting initial value:
+Chain : 
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2:   Error evaluating the log probability at the initial value.
+
+  Error evaluating the log probability at the initial value.
+Chain 3Chain Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: 
+Chain 3Rejecting initial value:Chain 2: Rejecting initial value:
+: 
+Chain Chain Rejecting initial value:
+3: 1Chain 2  Error evaluating the log probability at the initial value.
+: :   Error evaluating the log probability at the initial value.Chain   Error evaluating the log probability at the initial value.
+Chain 3: 
+2Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 31
+: : Chain 2Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:
+Chain 
+
+Chain 3: Chain 2:   Error evaluating the log probability at the initial value.
+1  Error evaluating the log probability at the initial value.
+Chain 3: Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain Chain 231: Rejecting initial value:: Rejecting initial value:: 
+Chain 
+Chain   Error evaluating the log probability at the initial value.2: 3: 
+  Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+Chain Chain 2Chain 31: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain Chain 3
+2: : Rejecting initial value:Chain Rejecting initial value:
+
+Chain 1Chain 3: : 2:   Error evaluating the log probability at the initial value.
+Rejecting initial value:  Error evaluating the log probability at the initial value.
+Chain 3
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 2: 
+1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Chain 2: Rejecting initial value:  Error evaluating the log probability at the initial value.: Rejecting initial value:
+
+
+Chain Chain 3Chain 2: :   Error evaluating the log probability at the initial value.1  Error evaluating the log probability at the initial value.
+
+: Chain 2Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain 2Chain 31: Rejecting initial value:: : Rejecting initial value:
+Chain Rejecting initial value:
+
+2: Chain 3Chain   Error evaluating the log probability at the initial value.
+: 1Chain 2  Error evaluating the log probability at the initial value.
+: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 3  Error evaluating the log probability at the initial value.
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2
+Chain : Rejecting initial value:Chain 31
+Chain : : 2: Rejecting initial value:
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+Chain 3
+Chain 2: Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+1
+Chain 3: Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Rejecting initial value:: Rejecting initial value:
+
+
+Chain Chain 3Chain 2: : Rejecting initial value:1  Error evaluating the log probability at the initial value.
+Chain : 
+Chain 3:   Error evaluating the log probability at the initial value.2:   Error evaluating the log probability at the initial value.
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3Chain Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: Rejecting initial value:
+: 
+Chain Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2: : Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+
+Chain Chain Chain 23: 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+: 
+Chain 3Rejecting initial value:Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: Rejecting initial value:
+Chain 
+Chain Chain 312: : Rejecting initial value::   Error evaluating the log probability at the initial value.
+
+Chain   Error evaluating the log probability at the initial value.Chain 23: 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+Chain 
+Chain 1Chain 23: : : Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain 3
+2: : Rejecting initial value:Chain   Error evaluating the log probability at the initial value.
+
+Chain 1Chain 23: : : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+Rejecting initial value:
+Chain 3
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain : Rejecting initial value:
+1
+Chain Chain 3: 2: : Rejecting initial value:  Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+
+Chain 
+Chain 23: Chain :   Error evaluating the log probability at the initial value.
+1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 3: Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:
+
+
+Chain Chain 3Chain 2: : Rejecting initial value:1  Error evaluating the log probability at the initial value.
+
+Chain : Chain 23: Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+
+
+Chain 3Chain Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: Rejecting initial value:
+: 
+Chain Chain 3  Error evaluating the log probability at the initial value.2: : Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+
+Chain Chain Chain 23: 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+: 
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 23: 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Rejecting initial value:Chain 31: 
+: Rejecting initial value:Rejecting initial value:Chain 
+
+2Chain 3Chain : :   Error evaluating the log probability at the initial value.1  Error evaluating the log probability at the initial value.
+: 
+Chain Chain 3  Error evaluating the log probability at the initial value.2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain : 
+1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+: Rejecting initial value:Chain Chain 
+Chain 1: 23Rejecting initial value:
+: :   Error evaluating the log probability at the initial value.Chain 1Rejecting initial value:
+Chain :   Error evaluating the log probability at the initial value.
+3
+Chain Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: 2
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: Chain 3Chain   Error evaluating the log probability at the initial value.: Rejecting initial value:1: 
+
+Chain Rejecting initial value:
+Chain 3: Chain 12  Error evaluating the log probability at the initial value.
+:   Error evaluating the log probability at the initial value.: Chain 3
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: 
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain Chain 3
+2: Chain 1: Rejecting initial value:
+: Rejecting initial value:Rejecting initial value:Chain 3
+Chain 
+: 1: Chain   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+2Chain 3Chain 1: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+:   Error evaluating the log probability at the initial value.
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 
+Chain 3Chain 12: : : Rejecting initial value:Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain 1Chain 3:   Error evaluating the log probability at the initial value.2: 
+Chain :   Error evaluating the log probability at the initial value.1: Rejecting initial value:
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain Chain 1Chain 3: Rejecting initial value:2: 
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1:   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+
+Chain Chain 1Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2: 
+: Rejecting initial value:Chain 1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: Rejecting initial value:
+Chain 
+Chain Chain 31: 2:   Error evaluating the log probability at the initial value.
+:   Error evaluating the log probability at the initial value.Chain 1Rejecting initial value:
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 
+Chain 3Chain 12: : Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain   Error evaluating the log probability at the initial value.
+1: 
+Chain   Error evaluating the log probability at the initial value.
+Chain 3Chain 12: Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+Chain 
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+3: Chain 1
+  Error evaluating the log probability at the initial value.
+: Rejecting initial value:Chain Chain 3
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: : 
+  Error evaluating the log probability at the initial value.
+Rejecting initial value:Chain 3Chain 1
+: Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 
+Chain 
+23: Chain 1:   Error evaluating the log probability at the initial value.
+: Rejecting initial value:  Error evaluating the log probability at the initial value.Chain 3
+Chain 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: Chain 
+  Error evaluating the log probability at the initial value.
+2Chain 3Chain 1: : Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 
+
+3: Chain 1Chain   Error evaluating the log probability at the initial value.
+: 2Chain 3Rejecting initial value:
+: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1Rejecting initial value:
+:   Error evaluating the log probability at the initial value.
+Chain 3
+Chain : Rejecting initial value:Chain 12
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 3: 
+  Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+Chain 1
+Chain 3: Rejecting initial value:Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2
+1: Chain 3:   Error evaluating the log probability at the initial value.Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:
+Chain 
+
+Chain 1: Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+2  Error evaluating the log probability at the initial value.
+Chain 1: Chain 3: Rejecting initial value:Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 
+
+1: Chain Chain 3  Error evaluating the log probability at the initial value.
+2: Chain 1: Rejecting initial value:
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.Chain 3
+
+:   Error evaluating the log probability at the initial value.Chain 1Chain 
+Chain : Rejecting initial value:23: 
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 3  Error evaluating the log probability at the initial value.
+
+: Rejecting initial value:Chain 1Chain 
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+23: 
+:   Error evaluating the log probability at the initial value.
+Chain 1Rejecting initial value:Chain 3: Rejecting initial value:
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain 
+12Chain 3:   Error evaluating the log probability at the initial value.: : Rejecting initial value:
+Chain   Error evaluating the log probability at the initial value.
+Chain 1
+3: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain   Error evaluating the log probability at the initial value.
+
+2Chain 3Chain 1: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain 3Chain 1Chain : Rejecting initial value::   Error evaluating the log probability at the initial value.2
+
+Chain : Chain 31: Rejecting initial value::   Error evaluating the log probability at the initial value.Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain 1Chain 3: : Rejecting initial value:2Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+: Chain 3Chain   Error evaluating the log probability at the initial value.: Rejecting initial value:1: 
+
+Chain   Error evaluating the log probability at the initial value.
+Chain 3: Chain 12  Error evaluating the log probability at the initial value.
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Chain 3
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 
+
+1Chain Chain 3: Rejecting initial value:2: Rejecting initial value:
+Chain : 
+Chain 1: Rejecting initial value:3:   Error evaluating the log probability at the initial value.
+
+  Error evaluating the log probability at the initial value.
+Chain 1Chain Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: 
+Chain 1  Error evaluating the log probability at the initial value.Chain 3: Rejecting initial value:
+: 
+Chain Chain Rejecting initial value:
+1: 2Chain 3  Error evaluating the log probability at the initial value.
+: :   Error evaluating the log probability at the initial value.Chain 1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+3: 
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2Chain 31: : : Rejecting initial value:Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1Rejecting initial value:
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+3: 
+Chain   Error evaluating the log probability at the initial value.
+Chain 12Chain 3: Rejecting initial value:: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain   Error evaluating the log probability at the initial value.
+1
+Chain 3:   Error evaluating the log probability at the initial value.Chain : Rejecting initial value:
+Chain 2
+1: : Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+:   Error evaluating the log probability at the initial value.Chain 1
+
+Chain : Rejecting initial value:Chain 3: 
+2Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain : Chain 31: Rejecting initial value:: Rejecting initial value:  Error evaluating the log probability at the initial value.
+
+
+Chain Chain 1Chain 3: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2  Error evaluating the log probability at the initial value.
+
+: Chain 3Chain 1  Error evaluating the log probability at the initial value.: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:
+
+
+Chain Chain 3Chain 12: Rejecting initial value::   Error evaluating the log probability at the initial value.: 
+Chain 
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+3: 1: 
+  Error evaluating the log probability at the initial value.Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+2: Chain 1Chain Rejecting initial value:
+: Rejecting initial value:3Chain 2
+Chain : :   Error evaluating the log probability at the initial value.1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain   Error evaluating the log probability at the initial value.
+
+2: Chain 1Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: 3Chain 2Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: : Rejecting initial value:Chain 1Rejecting initial value:
+Chain : Rejecting initial value:
+2: 
+Chain   Error evaluating the log probability at the initial value.
+Chain 13Chain 2:   Error evaluating the log probability at the initial value.: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain   Error evaluating the log probability at the initial value.
+1
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 2: 
+3Rejecting initial value:
+Chain 1: Chain 2: Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+:   Error evaluating the log probability at the initial value.
+Chain 
+
+Chain 1: Chain 2:   Error evaluating the log probability at the initial value.
+3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain : Chain 21: Rejecting initial value:: Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain 1Chain 2: : Rejecting initial value:3  Error evaluating the log probability at the initial value.
+
+Chain : Chain 21:   Error evaluating the log probability at the initial value.: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+
+
+Chain Chain Chain 21: 3: Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: 
+Chain 1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 2: Rejecting initial value:
+: Chain 
+Chain   Error evaluating the log probability at the initial value.31: 
+: Rejecting initial value:  Error evaluating the log probability at the initial value.
+Chain 
+Chain Chain 123: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+:   Error evaluating the log probability at the initial value.
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain Chain 1
+3: : Rejecting initial value:Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+2Chain 3Chain : Rejecting initial value:: Rejecting initial value:1: 
+
+Chain   Error evaluating the log probability at the initial value.
+Chain 3: Chain 12  Error evaluating the log probability at the initial value.
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Chain 3
+  Error evaluating the log probability at the initial value.: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1
+
+: Rejecting initial value:Chain Chain 3
+Chain 2: Rejecting initial value:1: : 
+Chain   Error evaluating the log probability at the initial value.
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+3: Chain 1
+  Error evaluating the log probability at the initial value.
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain Chain 3
+2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1: 
+: Rejecting initial value:Chain 3Rejecting initial value:
+
+: Rejecting initial value:Chain 1Chain 
+Chain :   Error evaluating the log probability at the initial value.23: 
+Chain :   Error evaluating the log probability at the initial value.
+1:   Error evaluating the log probability at the initial value.Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1Chain 
+: 2Chain 3Rejecting initial value:
+: : Rejecting initial value:Chain 1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain :   Error evaluating the log probability at the initial value.
+3: 
+Chain Chain   Error evaluating the log probability at the initial value.
+1: 2Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain Rejecting initial value:
+1
+Chain 3: Rejecting initial value:Chain : Rejecting initial value:
+Chain 2
+Chain 1: : 3:   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+Chain 1
+Chain 3: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain : 
+2Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain : Chain 31: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:Rejecting initial value:
+
+
+Chain Chain 1Chain 3: :   Error evaluating the log probability at the initial value.2  Error evaluating the log probability at the initial value.
+
+Chain : Chain 31: Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain Chain 31: 2: Rejecting initial value:Rejecting initial value:
+: 
+Chain Chain 1  Error evaluating the log probability at the initial value.3: :   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+
+Chain Chain Chain 31: 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: 
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 31: 
+: Rejecting initial value:Rejecting initial value:
+Chain 
+Chain Chain 123: :   Error evaluating the log probability at the initial value.:   Error evaluating the log probability at the initial value.
+
+Chain Rejecting initial value:Chain 31: 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 
+Chain 2Chain 31: : : Rejecting initial value:Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Chain Chain 
+3: 1: Chain   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+2Chain 3Chain : : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain Chain Chain 132: : Rejecting initial value:: Rejecting initial value:
+
+Chain Rejecting initial value:Chain 21: 
+:   Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+Chain 
+Chain Chain 32: 1: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.Chain 2
+
+: Rejecting initial value:Chain 1Chain 
+Chain : Rejecting initial value:32: 
+Chain :   Error evaluating the log probability at the initial value.
+1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain :   Error evaluating the log probability at the initial value.Chain 32
+Chain : Rejecting initial value:: 1: 
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+3
+Chain 1:   Error evaluating the log probability at the initial value.Chain : Rejecting initial value:
+Chain 2
+Chain 3: : 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Rejecting initial value:  Error evaluating the log probability at the initial value.
+Chain 3
+Chain 1: Rejecting initial value:Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2
+3: Chain 1:   Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.: Rejecting initial value:
+Chain 
+
+Chain 3: Chain 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+2  Error evaluating the log probability at the initial value.Chain 3: 
+Chain : Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: 
+Chain 
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+3Chain Chain 1:   Error evaluating the log probability at the initial value.2: Rejecting initial value:
+Chain : 
+Chain 3: Rejecting initial value:1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+  Error evaluating the log probability at the initial value.
+Chain 3Chain Chain 1: Rejecting initial value:2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain : 
+3  Error evaluating the log probability at the initial value.Chain 1:   Error evaluating the log probability at the initial value.
+: Rejecting initial value:
+Chain Chain 
+Chain 3: 21: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+:   Error evaluating the log probability at the initial value.
+Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1: Rejecting initial value:
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain 
+32Chain 1:   Error evaluating the log probability at the initial value.: : Rejecting initial value:
+Chain Rejecting initial value:
+Chain 3: 
+1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain   Error evaluating the log probability at the initial value.
+Chain 32Chain 1: Rejecting initial value:: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain   Error evaluating the log probability at the initial value.
+3
+Chain 1: Chain : Rejecting initial value:  Error evaluating the log probability at the initial value.
+2
+Chain 3: Chain 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+:   Error evaluating the log probability at the initial value.
+
+
+Chain Chain 3Chain 2: : Rejecting initial value:1Rejecting initial value:
+
+Chain : Chain 23: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+:   Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+
+
+Chain 3Chain Chain 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2: Rejecting initial value:
+: 
+Chain Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1: : Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+
+Chain Chain Chain 132: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+:   Error evaluating the log probability at the initial value.: 
+
+Rejecting initial value:Chain 1Chain 3
+: Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 
+Chain 
+21: Chain 3:   Error evaluating the log probability at the initial value.: Rejecting initial value:  Error evaluating the log probability at the initial value.
+Chain 
+Chain 
+1: 3: Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+2
+Chain : Chain 13: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain 3Chain 1: : Rejecting initial value:2  Error evaluating the log probability at the initial value.
+
+Chain : Chain 3: Rejecting initial value:1:   Error evaluating the log probability at the initial value.
+
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain Chain 132: Rejecting initial value:: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+
+  Error evaluating the log probability at the initial value.Chain Chain 
+Chain 1: 32:   Error evaluating the log probability at the initial value.: Rejecting initial value:Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain 
+Chain 1: Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+3Rejecting initial value:Chain 1: 
+: Rejecting initial value:  Error evaluating the log probability at the initial value.Chain 
+Chain 
+21: Chain :   Error evaluating the log probability at the initial value.
+3  Error evaluating the log probability at the initial value.
+Chain 1: Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2
+
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1Chain 
+: Rejecting initial value:3Chain 
+Chain : 21: Rejecting initial value::   Error evaluating the log probability at the initial value.
+
+Rejecting initial value:Chain 1Chain 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+3Chain 
+: 2Chain 1  Error evaluating the log probability at the initial value.: : Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Chain 
+Chain 13Chain :   Error evaluating the log probability at the initial value.: 2: 
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+1
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain : Rejecting initial value:
+3Chain 
+: Rejecting initial value:1Chain 
+: Rejecting initial value:2Chain 
+: 3Chain 1  Error evaluating the log probability at the initial value.: :   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+Chain Chain 
+1: 2Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain : 31: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain Chain 3Chain 2: Rejecting initial value:1: 
+Chain : Rejecting initial value:3:   Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+
+Chain 2Chain 3Chain :   Error evaluating the log probability at the initial value.: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1
+Chain 
+: 2: Chain 3Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: 
+Chain 2Rejecting initial value:
+Chain : Rejecting initial value:Chain 31
+Chain :   Error evaluating the log probability at the initial value.: 2: 
+Rejecting initial value:  Error evaluating the log probability at the initial value.
+Chain 3
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+1
+Chain : Chain 23:   Error evaluating the log probability at the initial value.: Rejecting initial value:Rejecting initial value:
+
+
+Chain Chain 3Chain 2: :   Error evaluating the log probability at the initial value.1  Error evaluating the log probability at the initial value.
+
+Chain : Chain 23: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+
+Chain Chain Chain 23: 1: Rejecting initial value:Rejecting initial value:
+: 
+Chain Chain Rejecting initial value:2: 3: 
+  Error evaluating the log probability at the initial value.
+  Error evaluating the log probability at the initial value.
+Chain Chain 2Chain 31: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+
+  Error evaluating the log probability at the initial value.Chain 2Chain 3
+: Rejecting initial value:: 
+Chain 
+Chain Chain 312: : Initialization between (-2, 2) failed after 100 attempts. :   Error evaluating the log probability at the initial value.
+
+Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 23: 
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+ Try specifying initial values, reducing ranges of constrained values, or reparameterizing the model.
+Chain 
+1: Chain Rejecting initial value:2
+: Chain Rejecting initial value:1
+: Chain   Error evaluating the log probability at the initial value.2
+: Chain   Error evaluating the log probability at the initial value.1
+: Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2
+: Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1
+: Chain Rejecting initial value:2
+: Chain Rejecting initial value:1
+: Chain   Error evaluating the log probability at the initial value.2
+: Chain   Error evaluating the log probability at the initial value.1
+: Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2
+: Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1
+: Rejecting initial value:[1] "Error in sampler$call_sampler(args_list[[i]]) : Initialization failed."Chain 
+Chain 
+21: : Rejecting initial value:  Error evaluating the log probability at the initial value.
+
+Chain Chain 21: :   Error evaluating the log probability at the initial value.Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain Chain 21: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Rejecting initial value:
+
+Chain Chain 21: : Rejecting initial value:  Error evaluating the log probability at the initial value.
+
+Chain Chain 21: :   Error evaluating the log probability at the initial value.Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain Chain 21: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Rejecting initial value:
+
+Chain Chain 21: : Rejecting initial value:  Error evaluating the log probability at the initial value.
+
+Chain Chain 21: :   Error evaluating the log probability at the initial value.Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain 2Chain : 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Rejecting initial value:
+
+Chain 2Chain : Rejecting initial value:1
+Chain : 2:   Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+
+Chain 2Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+1
+: Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2: 
+Rejecting initial value:
+Chain 1Chain : Rejecting initial value:2
+Chain : 1:   Error evaluating the log probability at the initial value.  Error evaluating the log probability at the initial value.
+
+Chain 1Chain : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+2
+: Chain 1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Rejecting initial value:
+
+Chain Chain 12:   Error evaluating the log probability at the initial value.: 
+Chain Rejecting initial value:1: 
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain 12: Rejecting initial value:: 
+Chain   Error evaluating the log probability at the initial value.1: 
+  Error evaluating the log probability at the initial value.
+Chain Chain 12: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1
+: Chain Rejecting initial value:
+2Chain 1: :   Error evaluating the log probability at the initial value.Rejecting initial value:
+Chain 
+Chain 1: 2Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: Chain 1  Error evaluating the log probability at the initial value.: Rejecting initial value:
+
+Chain Chain 1: 2  Error evaluating the log probability at the initial value.
+: Chain 1Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain Chain 12: Rejecting initial value:: 
+Chain Rejecting initial value:1: 
+  Error evaluating the log probability at the initial value.
+Chain Chain 12: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+  Error evaluating the log probability at the initial value.Chain 1
+: Rejecting initial value:Chain 
+Chain 21: :   Error evaluating the log probability at the initial value.
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain 12: Rejecting initial value:: 
+Chain Rejecting initial value:1: 
+  Error evaluating the log probability at the initial value.
+Chain Chain 12: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+  Error evaluating the log probability at the initial value.Chain 1
+: Rejecting initial value:Chain 
+Chain 21: :   Error evaluating the log probability at the initial value.
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain 12: Rejecting initial value:: 
+Chain Rejecting initial value:1: 
+  Error evaluating the log probability at the initial value.
+Chain Chain 12: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+  Error evaluating the log probability at the initial value.Chain 1
+: Rejecting initial value:Chain 
+Chain 21: :   Error evaluating the log probability at the initial value.
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain Chain 12: Rejecting initial value:: 
+Chain Rejecting initial value:1: 
+  Error evaluating the log probability at the initial value.
+Chain Chain 12: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+: 
+  Error evaluating the log probability at the initial value.Chain 1
+: Rejecting initial value:Chain 
+Chain 21: :   Error evaluating the log probability at the initial value.
+Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 1
+: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Chain 
+2Chain 1: : Rejecting initial value:Rejecting initial value:
+Chain 
+1: Chain   Error evaluating the log probability at the initial value.
+2Chain 1: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+
+Chain 1Chain : Rejecting initial value:2
+Chain : 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+
+Chain 1: Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+2Chain 1: : Rejecting initial value:Rejecting initial value:
+Chain 
+1: Chain   Error evaluating the log probability at the initial value.
+2Chain 1: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+
+Chain 1Chain : Rejecting initial value:2
+Chain : 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+
+Chain 1: Chain Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+2Chain 1: : Rejecting initial value:Rejecting initial value:
+Chain 
+1: Chain   Error evaluating the log probability at the initial value.
+2Chain 1: : Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+
+Chain 1Chain : Rejecting initial value:2
+Chain : 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+  Error evaluating the log probability at the initial value.
+
+Chain Chain 1: 2Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+: Chain 1Rejecting initial value:: Rejecting initial value:
+
+Chain Chain 1: 2  Error evaluating the log probability at the initial value.
+: Chain 1  Error evaluating the log probability at the initial value.: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+
+Chain Chain 1: 2
+Chain : 1: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+Initialization between (-2, 2) failed after 100 attempts. 
+
+Chain 1: Chain  Try specifying initial values, reducing ranges of constrained values, or reparameterizing the model.
+2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2[1]:  "Error in sampler$call_sampler(args_list[[i]]) : Initialization failed."
+  Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: validate transformed params: alpha_add[i_0__] is 2.5, but must be less than or equal to 2  (in 'model3646123fe48a_NonCentered_GenBeta_Linear_Social_RiskSafe' at line 112)
+
+Chain 2: 
+Chain 2: Initialization between (-2, 2) failed after 100 attempts. 
+Chain 2:  Try specifying initial values, reducing ranges of constrained values, or reparameterizing the model.
+[1] "Error in sampler$call_sampler(args_list[[i]]) : Initialization failed."
+[[1]]
+Stan model 'NonCentered_GenBeta_Linear_Social_RiskSafe' does not contain samples.
+
+[[2]]
+Stan model 'NonCentered_GenBeta_Linear_Social_RiskSafe' does not contain samples.
+
+[[3]]
+Stan model 'NonCentered_GenBeta_Linear_Social_RiskSafe' does not contain samples.
+

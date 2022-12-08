@@ -1,0 +1,41 @@
+---
+title: "Parameter Recovery"
+author: "Simon"
+date: "20/03/2020"
+output: html_document
+---
+# Prepare Data
+Before I do anything, make sure that I Prepare the Data in exactly the same way as before.
+
+# Parameter Recovery?
+First, i genereate sequences of uncorrelated values
+```{r}
+library(randtoolbox)
+generate_starting_values <- function(n,min,max) {
+  if(length(min) != length(max)) stop("min and max should have the same length")
+  dim <- length(min)
+  # generate Sobol values
+  start <- sobol(n,dim=dim)
+  # transform these to lie between min and max on each dimension
+  for(i in 1:ncol(start)) {
+    start[,i] <- min[i] + (max[i]-min[i])*start[,i]
+  }
+  return(start)
+}
+```
+
+---
+
+## Generating starting values with good coverage
+
+```{r,fig.width=7,fig.height=6,fig.align='center'}
+set.seed(123)
+rho <- sample(seq(0,2,length.out=10))
+kappa<- sample(seq(0,100,length.out=20))
+alpha_add<- sample(seq(0,2,length.out=10))
+UncertaintyMulti_Risk<-sample(seq(0,10,length.out=20))
+UncertaintyMulti<-sample(seq(0,10,length.out=20))
+
+Params<-expand_grid(rho,kappa,alpha_add,UncertaintyMulti_Risk,UncertaintyMulti)
+```
+

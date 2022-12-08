@@ -1,0 +1,299 @@
+/*
+ * CSS for jsPsych experiments.
+ *
+ * This stylesheet provides minimal styling to make jsPsych
+ * experiments look polished without any additional styles.
+ */
+
+ /* Container holding jsPsych content */
+
+ .jspsych-display-element {
+   display: flex;
+   flex-direction: column;
+   /*justify-content: center;
+   align-items: center;*/
+   /*height: 100%;
+   width: 100%;*/
+   overflow-y: scroll;
+ }
+
+ .jspsych-display-element:focus {
+   outline: none;
+ }
+
+ .jspsych-content-wrapper {
+   display: flex;
+   /*justify-content: center;
+   align-items: center;*/
+   margin: auto; /* this does the same thing as above two lines in this case */
+   flex: 1 1 100%;
+   width: 100%;
+ }
+
+ .jspsych-content {
+   max-width: 95%; /* this is mainly an IE 10-11 fix */
+   text-align: center;
+   margin: auto; /* this is for overflowing content */
+ }
+
+ .jspsych-top {
+   align-items: flex-start;
+ }
+
+ .jspsych-middle {
+   align-items: center;
+ }
+ 
+
+/* fonts and type */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+
+.jspsych-display-element {
+  font-family: 'Open Sans', 'Arial', sans-serif;
+  font-size: 18px;
+  line-height: 1.6em;
+}
+
+/* Form elements like input fields and buttons */
+
+input[type="text"] {
+  font-family: 'Open Sans', 'Arial', sans-serif;
+  font-size: 14px;
+}
+
+/* borrowing Bootstrap style for btn elements, but combining styles a bit */
+.jspsych-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 0px;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Open Sans', 'Arial', sans-serif;
+  cursor: pointer;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.jspsych-btn:hover {
+  background-color: #ddd;
+  border-color: #aaa;
+}
+
+.jspsych-btn:disabled {
+  background-color: #eee;
+  color: #aaa;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* jsPsych progress bar */
+
+#jspsych-progressbar-container {
+  color: #555;
+  border-bottom: 1px solid #dedede;
+  background-color: #f9f9f9;
+  margin-bottom: 1em;
+  text-align: center;
+  padding: 8px 0px;
+  width: 100%;
+  line-height: 1em;
+}
+#jspsych-progressbar-container span {
+  font-size: 14px;
+  padding-right: 14px;
+}
+#jspsych-progressbar-outer {
+  background-color: #eee;
+  width: 50%;
+  margin: auto;
+  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+#jspsych-progressbar-inner {
+  background-color: #aaa;
+  width: 0%;
+  height: 100%;
+}
+
+/* Control appearance of jsPsych.data.displayData() */
+#jspsych-data-display {
+  text-align: left;
+}
+
+
+/********************************************************************************
+*******THESE CLASSES ARE MADE BY SIMON AND ARE NEEDED TO**************************
+*******PRODUCE NICE LOOKING INSTRUCTIONS, FEEDBACKS AND MORE**********************
+***********************************************************************************/
+
+.selected{ /*SC: this is a class attribute to make a red border around a selected element  */
+ border-style: solid;
+ border-color: red;
+}
+.unselected{ /*SC: this is a class attribute to make an invisible border around a 
+	selected element if you dont put a border next to the selected one, the will have slightly diffrent heights.*/
+ border-style: solid;
+ border-color: rgba(255, 0, 0, 0);
+}
+
+.demonstrate{/*SC:this is a class attribute to make a yellow border around a selected element  */ 
+	border-radius: 20px;
+	border: #00007F solid 3px;
+}
+
+.demonstrateleft{/*SC:this is a class attribute to make a yellow border around a selected element  */ 
+	position: relative;
+	padding: 0px;
+	background: #FFFFFF;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	border: #00007F solid 3px;
+}
+
+
+.demonstrateleft:after
+{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 0px 0 0px 81px;
+	border-color: transparent #FFFFFF;
+	display: block;
+	width: 0;
+	z-index: 1;
+	margin-top: -0px;
+	right: -81px;
+	top: 50%;
+}
+
+.demonstrateleft:before
+{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 7px 0 7px 88px;
+	border-color: transparent #00007F;
+	display: block;
+	width: 0;
+	z-index: 0;
+	margin-top: -7px;
+	right: -96px;
+	top: 50%;
+}
+
+
+
+
+.demonstrateright{/*SC:this is a class attribute to make a yellow border around a selected element  */ 
+	position: relative;
+	padding: 0px;
+	background: #FFFFFF;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	border: #00007F solid 3px;
+}
+
+
+.demonstrateright:after
+{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 0px 81px 0px 0;
+	border-color: transparent #FFFFFF;
+	display: block;
+	width: 0;
+	z-index: 1;
+	margin-top: -0px;
+	left: -81px;
+	top: 50%;
+}
+
+.demonstrateright:before
+{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 7px 88px 7px 0;
+	border-color: transparent #00007F;
+	display: block;
+	width: 0;
+	z-index: 0;
+	margin-top: -7px;
+	left: -96px;
+	top: 50%;
+}
+
+
+
+.center/*SC This should be an unnesesary class because jspsych is doing all of it already... */
+{
+  text-align: center;
+}
+
+/* This is a pretty neat design to put stuff into a grid like structure 
+Its a flexbox whatever that means*/
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+.grid-item {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+/********************************************************************************
+*******THESE CLASSES ARE MADE BY SIMON AND ARE NEEDED TO**************************
+******* CREATE A RESPONSIVE SLIDER ELEMENT**********************
+***********************************************************************************/
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;   
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+

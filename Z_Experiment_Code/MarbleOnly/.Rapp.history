@@ -1,0 +1,4 @@
+load("/Users/ciranka/Documents/Experiments Java Script/HelloWorld/socialInfo.RData")
+socialInfo
+dataExp
+load("/Users/ciranka/Documents/Experiments Java Script/OCU/socialInfo.RData")

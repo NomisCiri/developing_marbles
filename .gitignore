@@ -1,0 +1,8 @@
+*.rds
+*.RData
+*.RProj
+*.pdf
+*.png
+*.Rproj.user
+*./Z_Rubbish
+*.RSession

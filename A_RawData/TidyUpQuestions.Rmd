@@ -1,0 +1,480 @@
+---
+title: "Questionnaire Reconstruction"
+author: "Simon"
+date: "17 12 2018"
+output: html_document
+---
+
+# Questionnaires
+In this Project, we look at the Questionnaire Data that was collected in the Lab.
+Here is the Explanaiton.
+
+## ARQs
+In this File i tidy up the Questionnaire Data. You find it the tidy RData under "Questionnaire_Data.RData".
+But you can already look at it here.
+
+We devided the ARQ into subquestions that ask.
+
+* How much would you recommend this action to a loved one? (RECOM)
+
+* How often do you engage in this kind of action yourself (HOWOFTEN)
+
+* How many of the ppl you know engage in this kind of action (HOW MANY)
+
+* How risky do you think this action is ( no ending )
+
+ARQ Questions were on a scale from 0 (not (none) at all) to 4 (extremely (many))
+
+## SOEP
+
+The SOEP Item was: How Risk taking do you consider yourself to be in general.
+That was a Scale from 0 to 10
+
+##The Intolerance to Uncertainty 
+Scale was from 1 to five with labels
+
+1) Keineswegs typisch für mich (Does not apply to me at all)
+2) wenig typisch für mich (Does not apply to me)
+3) Etwas typisch für mich (Does apply to me a little)
+4) Sehr typisch für mich (Does apply to me)
+5) Vollkommen typisch für mich (Does completely apply to me)
+
+## Preference
+
+We also asked for subjective Preferences about all sorts of things.
+
+Pref 1: 
+
+* Which Film Genre do you like best 
+1)Horror  2)Comedy 3)Drama 4) Action
+
+Pref 2 is:
+
+* What do you do when you spend time with your friends? 
+1)Nothing  2)Watch TV 3)Chatting 4) Sth Outside
+
+Pref 3
+
+* Which Sport do you like Most 
+1)Ballsprots  2)athletics 3)Water Sports 4) Gymnastics
+
+Pref 4
+
+* Which School subject is the best?
+1)Languages  2)Maths & Sciences 3)Arts & Music 4) Sports
+
+Pref 5
+
+* Which Computer Games do you like to play?
+1)Simulation  2)Ego-shooter  3)Roleplay  4) None
+
+Pref 6
+
+* Which Food do you like Most
+1)Italian  2)Asian  3)Turkish  4) German
+
+Pref 7
+
+* Which Social Media do you use most?
+1)Facebook 2) Twitter 3) Instagramm 4) Snapchat
+
+Pref 8
+
+* Which Music do you like best?
+1)HipHop 2) Rock/Metal 3) Pop 4) Other
+
+Pref 9
+
+* Which Music do you like best?
+1)Sea 2) Mountains 3) City 4) Athome
+
+Pref 10
+
+* What are the best Animals
+1)Cats/Dogs 2) Snakes 3) Fish 4) Primates
+
+
+Pref 11
+
+* What superpower would you like to have
+1)Flying 2) Mind Reading 3) Beeing Invisible 4) Beeing Unbreakable
+
+
+# Code & Table   
+I saved it in an SQL Database and the data comes out if it in wierd chuncks. But i tidy it up here.
+
+```{r RawDataWrangling, warning=FALSE}
+library(tidyverse)
+Questionnaires<-read.csv(paste0("../A_RawData/Questionnaire_1.csv"))
+cols=c("subject","age","sex","rt","responses","test_part","id")
+colnames(Questionnaires)<-cols
+
+Questionnaires$subject=as.numeric(as.character(Questionnaires$subject))
+Questionnaires$age=as.character(Questionnaires$age)
+Questionnaires$sex=as.character(Questionnaires$sex)
+Questionnaires$rt=as.numeric(Questionnaires$rt)
+Questionnaires$responses=as.character(Questionnaires$responses)
+Questionnaires$test_part=as.character(Questionnaires$test_part)
+Questionnaires$id=as.character(Questionnaires$id)
+
+subz<-unique(Questionnaires$subject)
+
+
+# tidy up the rough stuff
+Tidy<-Questionnaires %>% separate("responses",c("1","2","3","4"), sep = ",", remove = TRUE, convert = FALSE) %>% 
+  gather( "Question", "Response", 5:8)%>% 
+  arrange(subject)%>%mutate(Help=paste0(test_part,"_",Question))
+TidyQuestionnaire<-Tidy[!is.na(Tidy$Response) & Tidy$Response!="NULL",]%>%arrange(subject,Help)
+TidyQuestionnaire$Question<-as.numeric(TidyQuestionnaire$Question)
+
+
+
+# clean up what json did to me
+for(i in 1:length(TidyQuestionnaire$Question)){
+  temp<-strsplit(TidyQuestionnaire$test_part[i],"")# check the value in test part so that i can maniupulate it in the loop by some conditioning statement.
+  if((temp[[1]][1]=="A") & (temp[[1]][4]=="1")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i]))
+  }else if((temp[[1]][1]=="A") & (temp[[1]][4]=="2")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i])+4)
+  }else if((temp[[1]][1]=="A") & (temp[[1]][4]=="3")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i])+8)
+  }else if((temp[[1]][1]=="A") & (temp[[1]][4]=="4")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i])+12)
+  }else if((temp[[1]][1]=="A") & (temp[[1]][4]=="5")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i])+16)
+  }else if((temp[[1]][1]=="A") & (temp[[1]][4]=="6")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i])+20)
+    # Here i Recode the IU SCALE
+  }else if((temp[[1]][1]=="I") & (temp[[1]][3]=="1")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i]))
+  }else if((temp[[1]][1]=="I") & (temp[[1]][3]=="2")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i])+4)
+  }else if((temp[[1]][1]=="I") & (temp[[1]][3]=="3")){
+    TidyQuestionnaire$test_part[i]<-paste0(gsub('[0-9]+', '',TidyQuestionnaire$test_part[i]),as.numeric(TidyQuestionnaire$Question[i])+8)
+  }
+}
+subz<-as.character(c(1:100,102:200))# only take the right number of subjects.
+
+TidyQuestionnaire<-TidyQuestionnaire[TidyQuestionnaire$subject %in% subz,]
+subz<-unique(TidyQuestionnaire[TidyQuestionnaire$subject %in% subz,]$subject)
+#cleanup what i did to myself
+#goddamn this is a mess. I accidently copy and pasted the test part from 5 on. luckyly i didnt randomize
+TidyQuestionnaire[TidyQuestionnaire$test_part=="Pref10",]$test_part<-"Pref11"
+
+for (i in 1:length(subz)){
+  subset<-TidyQuestionnaire[TidyQuestionnaire$subject==subz[i] & TidyQuestionnaire$test_part=="Pref5",]
+  for(k in 1:length(subset$test_part)){
+    subset$test_part[k]<-paste0("Pref",k+4)
+  }
+  TidyQuestionnaire[TidyQuestionnaire$subject==subz[i] & TidyQuestionnaire$test_part=="Pref5",]<-subset
+}
+
+TidyQuestionnaire<-TidyQuestionnaire%>%select(c("subject","age","sex","test_part","Response"))
+TidyQuestionnaire=unique(TidyQuestionnaire) # make sure that you dont accidentely leave duplicates.
+
+save(TidyQuestionnaire,file="Questionnaire_Data.RData")
+
+
+Questionnaire<-TidyQuestionnaire%>%pivot_wider(id_cols = subject,names_from = test_part,values_from = Response)
+
+knitr::kable(TidyQuestionnaire[1:200,])
+```
+Now that i cleaned it up we should identify the different subscales of the ARQ Questionnaire.
+
+###Factor 1: thrill-seeking behaviors Snow skiing
+
+* Snow Skiing 1
+* Tao Kwon Do fighting 3
+* Inline skating 5 
+* Parachuting 18
+* Entering a competition 7
+* Flying a plane 9
+* Leaving school 22
+
+### Factor 2: rebellious behaviors
+
+* Drinking 10
+* Smoking 8
+* Getting drunk 15
+* Taking drugs 2
+* Staying out late 6
+
+### Factor 3: reckless behaviors
+
+* Drinking and driving 13
+* Stealing cars and going for joy rides 21
+* Having unprotected sex 16
+* Speeding 19
+* Driving without a license 11
+
+### Factor 4: antisocial behaviors
+
+* Overeating 17
+* Teasing and picking on people 4
+* Cheating 14
+* Talking to strangers 12
+* Sniffing gas or glue 20
+
+## Format Data
+
+```{r warning=FALSE, echo=FALSE}
+
+# good for structural equation models.
+library(lavaan)
+# i grouped the questionnaire by age before, so i can just extract the age as another predictor. 
+Age<-as.numeric(TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ1",]$age)
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ1",]$test_part<-"Thrill_Asses1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ3",]$test_part<-"Thrill_Asses2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ5",]$test_part<-"Thrill_Asses3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ18",]$test_part<-"Thrill_Asses4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ7",]$test_part<-"Thrill_Asses5"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ9",]$test_part<-"Thrill_Asses6"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ22",]$test_part<-"Thrill_Asses7"
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ10",]$test_part<-"Rebel_Asses1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ8",]$test_part<-"Rebel_Asses2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ15",]$test_part<-"Rebel_Asses3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ2",]$test_part<-"Rebel_Asses4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ6",]$test_part<-"Rebel_Asses5"
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ13",]$test_part<-"Reckless_Asses1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ21",]$test_part<-"Reckless_Asses2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ16",]$test_part<-"Reckless_Asses3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ19",]$test_part<-"Reckless_Asses4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ11",]$test_part<-"Reckless_Asses5"
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ17",]$test_part<-"Antisocial_Asses1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ4",]$test_part<-"Antisocial_Asses2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ14",]$test_part<-"Antisocial_Asses3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ12",]$test_part<-"Antisocial_Asses4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ20",]$test_part<-"Antisocial_Asses5"
+
+
+##### How Many Others
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany1",]$test_part<-"Thrill_HowMany1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany3",]$test_part<-"Thrill_HowMany2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany5",]$test_part<-"Thrill_HowMany3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany18",]$test_part<-"Thrill_HowMany4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany7",]$test_part<-"Thrill_HowMany5"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany9",]$test_part<-"Thrill_HowMany6"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany22",]$test_part<-"Thrill_HowMany7"
+
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany10",]$test_part<-"Rebel_HowMany1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany8",]$test_part<-"Rebel_HowMany2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany15",]$test_part<-"Rebel_HowMany3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany2",]$test_part<-"Rebel_HowMany4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany6",]$test_part<-"Rebel_HowMany5"
+
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany13",]$test_part<-"Reckless_HowMany1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany21",]$test_part<-"Reckless_HowMany2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany16",]$test_part<-"Reckless_HowMany3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany19",]$test_part<-"Reckless_HowMany4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany11",]$test_part<-"Reckless_HowMany5"
+
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany17",]$test_part<-"Antisocial_HowMany1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany4",]$test_part<-"Antisocial_HowMany2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany14",]$test_part<-"Antisocial_HowMany3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany12",]$test_part<-"Antisocial_HowMany4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowMany20",]$test_part<-"Antisocial_HowMany5"
+
+
+### How Ofen
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften1",]$test_part<-"Thrill_HowOften1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften3",]$test_part<-"Thrill_HowOften2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften5",]$test_part<-"Thrill_HowOften3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften18",]$test_part<-"Thrill_HowOften4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften7",]$test_part<-"Thrill_HowOften5"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften9",]$test_part<-"Thrill_HowOften6"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften22",]$test_part<-"Thrill_HowOften7"
+#"Thrill_HowOften7" = Thrill7[c(1:4,6:151)]# sub 101 was double. maybe kick it out completely
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften10",]$test_part<-"Rebel_HowOften1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften8",]$test_part<-"Rebel_HowOften2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften15",]$test_part<-"Rebel_HowOften3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften2",]$test_part<-"Rebel_HowOften4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften6",]$test_part<-"Rebel_HowOften5"
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften13",]$test_part<-"Reckless_HowOften1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften21",]$test_part<-"Reckless_HowOften2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften16",]$test_part<-"Reckless_HowOften3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften19",]$test_part<-"Reckless_HowOften4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften11",]$test_part<-"Reckless_HowOften5"
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften17",]$test_part<-"Antisocial_HowOften1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften4",]$test_part<-"Antisocial_HowOften2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften14",]$test_part<-"Antisocial_HowOften3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften12",]$test_part<-"Antisocial_HowOften4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_HowOften20",]$test_part<-"Antisocial_HowOften5"
+
+
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom1",]$test_part<-"Thrill_Recom1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom3",]$test_part<-"Thrill_Recom2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom5",]$test_part<-"Thrill_Recom3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom18",]$test_part<-"Thrill_Recom4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom7",]$test_part<-"Thrill_Recom5"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom9",]$test_part<-"Thrill_Recom6"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom22",]$test_part<-"Thrill_Recom7"
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom10",]$test_part<-"Rebel_Recom1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom8",]$test_part<-"Rebel_Recom2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom15",]$test_part<-"Rebel_Recom3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom2",]$test_part<-"Rebel_Recom4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom6",]$test_part<-"Rebel_Recom5"
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom13",]$test_part<-"Reckless_Recom1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom21",]$test_part<-"Reckless_Recom2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom16",]$test_part<-"Reckless_Recom3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom19",]$test_part<-"Reckless_Recom4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom11",]$test_part<-"Reckless_Recom5"
+
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom17",]$test_part<-"Antisocial_Recom1"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom4",]$test_part<-"Antisocial_Recom2"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom14",]$test_part<-"Antisocial_Recom3"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom12",]$test_part<-"Antisocial_Recom4"
+TidyQuestionnaire[TidyQuestionnaire$test_part=="ARQ_Recom20",]$test_part<-"Antisocial_Recom5"
+
+TidyQuestionnaire$Response<-as.numeric(TidyQuestionnaire$Response)
+
+TidyQuestionnaireWideSums <- spread(TidyQuestionnaire, test_part, as.numeric(Response))%>%mutate(
+  SumAntisocial=Antisocial_Asses2 + Antisocial_Asses3 + Antisocial_Asses4 + Antisocial_Asses5+ Antisocial_Asses1,
+  SumAntisocial_HowMany=Antisocial_HowMany2 + Antisocial_HowMany3 + Antisocial_HowMany4 + Antisocial_HowMany5+ Antisocial_HowMany1,
+  SumAntisocial_HowOften=Antisocial_HowOften2 + Antisocial_HowOften3 + Antisocial_HowOften4 + Antisocial_HowOften5+ Antisocial_HowOften1,
+  SumAntisocial_Recom=Antisocial_Recom2 + Antisocial_Recom3 + Antisocial_Recom4 + Antisocial_Recom5+ Antisocial_Recom1,
+  
+  SumThrill=Thrill_Asses1 + Thrill_Asses2 + Thrill_Asses3 + Thrill_Asses4 + Thrill_Asses5 + Thrill_Asses6 + Thrill_Asses7,
+  SumThrill_HowMany=Thrill_HowMany1 + Thrill_HowMany2 + Thrill_HowMany3 + Thrill_HowMany4 + Thrill_HowMany5 + Thrill_HowMany6 + Thrill_HowMany7,
+  SumThrill_HowOften=Thrill_HowOften1 + Thrill_HowOften2 + Thrill_HowOften3 + Thrill_HowOften4 + Thrill_HowOften5 + Thrill_HowOften6 + Thrill_HowOften7,
+  SumThrill_Recom=Thrill_Recom1 + Thrill_Recom2 + Thrill_Recom3 + Thrill_Recom4 + Thrill_Recom5 + Thrill_Recom6 + Thrill_Recom7,
+  
+  SumReckless=Reckless_Asses1 + Reckless_Asses2 + Reckless_Asses3 + Reckless_Asses4 + Reckless_Asses5,
+  SumReckless_HowMany=Reckless_HowMany1 + Reckless_HowMany2 + Reckless_HowMany3 + Reckless_HowMany4 + Reckless_HowMany5,
+  SumReckless_HowOften=Reckless_HowOften1 + Reckless_HowOften2 + Reckless_HowOften3 + Reckless_HowOften4 + Reckless_HowOften5,
+  SumReckless_Recom=Reckless_Recom1 + Reckless_Recom2 + Reckless_Recom3 + Reckless_Recom4 + Reckless_Recom5,
+  
+  SumRebel=Rebel_Asses1 + Rebel_Asses2 + Rebel_Asses3 + Rebel_Asses4 + Rebel_Asses5,
+  SumRebel_HowMany=Rebel_HowMany1 + Rebel_HowMany2 + Rebel_HowMany3 + Rebel_HowMany4 + Rebel_HowMany5,
+  SumRebel_HowOften=Rebel_HowOften1 + Rebel_HowOften2 + Rebel_HowOften3 + Rebel_HowOften4 + Rebel_HowOften5,
+  SumRebel_Recom=Rebel_Recom1 + Rebel_Recom2 + Rebel_Recom3 + Rebel_Recom4 + Rebel_Recom5,
+  SumIU= IU1+IU2+IU3+IU4+IU5+IU6+IU7+IU8+IU9+IU10+IU11+IU12
+)
+
+
+TidyQuestionnaireWideSums[,c("subject","SumAntisocial","SumAntisocial_HowMany","SumAntisocial_HowOften","SumAntisocial_Recom","SumThrill","SumThrill_HowMany","SumThrill_HowOften","SumThrill_Recom","SumReckless","SumReckless_HowMany","SumReckless_HowOften","SumReckless_Recom","SumRebel","SumRebel_HowMany","SumRebel_HowOften","SumRebel_Recom","SumIU")]
+
+WideQuestionsAndSums<-merge(x = Questionnaire, y = TidyQuestionnaireWideSums, by = "subject")
+
+write.csv(WideQuestionsAndSums,"Questionnaire_SumScore.csv")
+
+```
+
+Now i bring the data into a format so that i can make random intercepts for subjetcs, factors and items.
+This means i have columns for different measurments. These refer to the Subjects response as to how often they perfom the actions,
+how risky they think these actions are, how many others are doing it and how recommendeble they consider the action to be. 
+
+```{r warning=FALSE}
+Measures<-colnames(TidyQuestionnaireWideSums)
+
+TidyQuestionnaireLongSums<-TidyQuestionnaireWideSums%>%
+  tidyr::gather(TestPart,ResponseHowMan,Measures[4:length(Measures)])
+
+temp<- TidyQuestionnaireLongSums%>%mutate(Factor=
+                                            case_when(
+                                              grepl("Asses",TestPart)~"Risk",
+                                              grepl("Recom",TestPart)~"Recom",
+                                              grepl("HowMany",TestPart)~"HowMany",
+                                              grepl("HowOften",TestPart)~"HowOften"
+                                            ),
+                                          Scale=case_when(
+                                            grepl("Asses",TestPart)~"ARQ",
+                                            grepl("Recom",TestPart)~"ARQ",
+                                            grepl("HowMany",TestPart)~"ARQ",
+                                            grepl("HowOften",TestPart)~"ARQ",
+                                            grepl("SOEP",TestPart)~"SOEP",
+                                            grepl("IU",TestPart)~"IU",
+                                            grepl("PDS",TestPart)~"PDS",
+                                            grepl("Pref",TestPart)~"Pref"
+                                          ),
+                                          Sub_Scale=case_when(
+                                            grepl("Anti",TestPart)~paste0("Antisocial_",parse_number(TestPart)),
+                                            grepl("Rebel",TestPart)~paste0("Rebellious_",parse_number(TestPart)),
+                                            grepl("Reckl",TestPart)~paste0("Reckless_",parse_number(TestPart)),
+                                            grepl("Thrill",TestPart)~paste0("Thrill_Seeking_",parse_number(TestPart)),
+                                            grepl("SOEP",TestPart)~"SOEP",
+                                            grepl("IU",TestPart)~"IU",
+                                            grepl("PDS",TestPart)~"PDS",
+                                            grepl("Pref",TestPart)~"Pref"
+                                          )
+)%>%spread(Factor, as.numeric(ResponseHowMan))
+colnames(temp)<-c("subject", "age",   "sex",       "TestPart", "Scale", "Sub_Scale", "HowMany", "HowOften", "Recom",  "Risk", "Resp")
+
+# Merge the subsets according to the subject ID, in order to remove NAs and Keep only ARQs for now.
+ARQs<-temp[!is.na(temp$HowMany),c(1:3,6,7),]%>%merge(
+  temp[!is.na(temp$HowOften),c(1:3,6,8),],id=Sub_Scale
+) %>%merge(
+  temp[!is.na(temp$Recom),c(1:3,6,9),],id=Sub_Scale
+)%>%merge(
+  temp[!is.na(temp$Risk),c(1:3,6,10),],id=Sub_Scale
+)%>%mutate( Scale=case_when(
+  grepl("Anti",Sub_Scale)~paste0("Antisocial"),
+  grepl("Rebel",Sub_Scale)~paste0("Rebellious"),
+  grepl("Reckl",Sub_Scale)~paste0("Reckless"),
+  grepl("Thrill",Sub_Scale)~paste0("Thrill_Seeking")
+)
+)
+
+ARQs%>%gather(Caption,Response,HowMany,HowOften,Recom,Risk)->Shit2
+
+write.csv(ARQs,file="ARQsNew23.csv")
+write.csv(TidyQuestionnaireLongSums,file="TidyQuestionnaireLongSumsNew2.csv")
+write.csv(TidyQuestionnaire,file="TidyQuestionnaireNew2.csv")
+saveRDS(ARQs,file="ARQsNew2.rds")
+
+PDS<-temp%>%filter(Scale=="PDS")
+PDS<-PDS[,c(1,2,3,4,5,11)]
+PDS$Caption="Regular"
+PDS=PDS[,c(1,2,3,4,5,7,6)]
+colnames(PDS)<-colnames(Shit2)
+
+SOEP<-temp%>%filter(Scale=="SOEP")
+SOEP<-SOEP[,c(1,2,3,4,5,11)]
+SOEP$Caption="Regular"
+SOEP=SOEP[,c(1,2,3,4,5,7,6)]
+colnames(PDS)<-colnames(Shit2)
+
+IU<-temp%>%filter(Scale=="IU")
+IU<-IU[,c(1,2,3,4,5,11)]
+IU$Caption="Regular"
+IU=IU[,c(1,2,3,4,5,7,6)]
+colnames(PDS)<-colnames(Shit2)
+
+rbind(Shit2,IU)
+# Adding Puberty Development Scale
+PDS<-temp%>%filter(Scale=="PDS")%>%group_by(subject)%>%summarise(
+  SumPuberty=sum(Resp)
+  #Scale="PDS"
+)%>%merge(ARQs,id=subject)
+#%>%select(subject,age,sex,Caption,response)
+
+write.csv(PDS,file="PDS.csv")
+
+
+
+# not sure what to do with this format.
+DummyWithout<-temp%>%filter(Scale!="ARQ")
+DummyWithout<-DummyWithout[,c(1,2,3,4,5,7,8,9,10,11)]
+
+ARQs<-ARQs[,c(1,2,3,4,9,5,6,7,8)]
+ARQs$Resp<-NA
+colnames(DummyWithout)<-names(ARQs)
+ARQs<-as.tibble(ARQs)
+rbind(DummyWithout,ARQs)
+
+ARQOnly<-shit[!is.na(shit$Scale) & shit$Scale=="ARQ",]
+
+```

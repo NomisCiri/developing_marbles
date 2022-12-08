@@ -1,0 +1,54 @@
+[1] "3"
+ # of (max) trials per subject =  144 
+
+[1] 0.125 0.500 0.375 0.250 0.750 0.675
+
+SAMPLING FOR MODEL 'NonCentered_GenBeta_Linear_Social_Trembl_multi2' NOW (CHAIN 1).
+
+SAMPLING
+SAMPLING FOR MODEL ' FOR MODEL 'NonCentered_GenBeta_Linear_Social_Trembl_multi2NonCentered_GenBeta_Linear_Social_Trembl_multi2' NOW (CHAIN ' NOW (CHAIN 2).
+3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0.150665 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 1506.65 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:     1 / 20000 [  0%]  (Warmup)
+Chain 1: 
+Chain 1: Gradient evaluation took 0.194259 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1942.59 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 2: 
+Chain 2: Gradient evaluation took 0.190053 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 1900.53 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 1: Iteration:     1 / 20000 [  0%]  (Warmup)
+Chain 2: Iteration:     1 / 20000 [  0%]  (Warmup)
+Chain 3: Iteration:  2000 / 20000 [ 10%]  (Warmup)
+Chain 2: Iteration:  2000 / 20000 [ 10%]  (Warmup)
+Chain 3: Iteration:  4000 / 20000 [ 20%]  (Warmup)
+Chain 3: Iteration:  6000 / 20000 [ 30%]  (Warmup)
+Chain 3: Iteration:  8000 / 20000 [ 40%]  (Warmup)
+Chain 3: Iteration: 10000 / 20000 [ 50%]  (Warmup)
+Chain 3: Iteration: 10001 / 20000 [ 50%]  (Sampling)
+Chain 3: Iteration: 12000 / 20000 [ 60%]  (Sampling)
+Chain 3: Iteration: 14000 / 20000 [ 70%]  (Sampling)
+Chain 3: Iteration: 16000 / 20000 [ 80%]  (Sampling)
+Chain 3: Iteration: 18000 / 20000 [ 90%]  (Sampling)
+Chain 3: Iteration: 20000 / 20000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 95148.7 seconds (Warm-up)
+Chain 3:                13726.8 seconds (Sampling)
+Chain 3:                108875 seconds (Total)
+Chain 3: 
+Chain 2: Iteration:  4000 / 20000 [ 20%]  (Warmup)
+Chain 2: Iteration:  6000 / 20000 [ 30%]  (Warmup)
+Chain 2: Iteration:  8000 / 20000 [ 40%]  (Warmup)
+Chain 2: Iteration: 10000 / 20000 [ 50%]  (Warmup)
+Chain 2: Iteration: 10001 / 20000 [ 50%]  (Sampling)
+Chain 2: Iteration: 12000 / 20000 [ 60%]  (Sampling)

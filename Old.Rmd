@@ -1,0 +1,979 @@
+
+
+## Models 
+
+I outsourced Modelfitting to the tardis
+Here i fit a model that assumes different hyperdistributions for age groups. 
+
+We can look at it indivdually later on but i think this can provide a good first look. First i need to concatanete the subject parameters.
+For this I need to retrieve the real Values at some point.
+
+```{r}
+ModelParamsFull=list()
+subCount=1
+for (j in 1:length(unique(MarbleData$Agegroup))){
+  fitSep<-readRDS(paste0("C_ModelFits/Marbles_Model_8Age_",j,".rds"))
+  Parameters<-(rstan::extract(fitSep))
+  #library(tidyverse)
+  
+  #Bin_Update_Data<-Bin_Update_Data[Bin_Update_Data$typeRA=="1",]# keep only The Risk trails.
+  Bin_Update_Data<-MarbleData%>%arrange(Agegroup)# i order it first so i can make sure that 
+  Group<-unique(Bin_Update_Data$Agegroup)# for indexing my PubertyStages.
+  
+  #make it fit with my stan file.
+  Bin_Update_Data<-Bin_Update_Data%>%dplyr::mutate(
+    OtherChoseRisk = case_when(
+      OtherChoseRisk=="NULL" ~ 2,# i dont need this but i restricted the numbers in stan between 1 and 3
+      OtherChoseRisk=="1" ~ 3,# risky choices are coded as 3 in my stan code
+      OtherChoseRisk=="0" ~ 1,# safe choices are coded as 1 in my stan code
+      TRUE~0 # keep the rest.
+    )
+  )#end PeerChoice.
+  #subset it to fit on only one PubertyStage. 
+  # now check how many participants we have.
+  Bin_Update_Data$subject<-as.numeric(Bin_Update_Data$subject)
+  #change colname of subject into subjID
+  numSubjs<-length(unique(Bin_Update_Data$subject))#Total Number of Subs
+  subjList <- unique(Bin_Update_Data$subject)######
+  ageList<-Bin_Update_Data%>%group_by(subject)%>%dplyr::summarize(
+    age=mean(age)
+  )%>%select(age)%>%ungroup()
+  
+  ageList=as.vector(ageList$age)
+  
+  
+  confList<-Bin_Update_Data%>%filter(HowSure!=102)%>%group_by(subject)%>%dplyr::summarise(
+    Confidence=mean(HowSure)
+  )
+  confList=as.vector(confList$Confidence)
+  
+  
+  datalist = list()
+  
+  for(i in 1:dim(Parameters$alpha_add)[2]){
+    df=data.frame(
+      alphaAdd=as.vector(Parameters$alpha_add[,i]),
+      #  betaAdd=as.vector(Parameters$beta_add[,i]),
+      rho=as.vector(Parameters$rho[,i]),
+      tau=as.vector(Parameters$tau[,i]),
+      ocusafeRisk=as.vector(Parameters$ocu_safe_Risk[,i]),
+      ocusafeUncertainty=as.vector(Parameters$ocu_safe_Uncertainty[,i]),
+      ocuriskRisk=as.vector(Parameters$ocu_risk_Risk[,i]),
+      ocuriskUncertainty=as.vector(Parameters$ocu_risk_Uncertainty[,i]),
+      subject=subjList[subCount],
+      age=ageList[subCount],# Here i need to get some kind of dictionary.
+      conf=confList[subCount]
+    )
+    subCount=subCount+1
+    datalist[[i]] <- df 
+  }
+  ModelParamsFull[[j]] <- do.call(rbind, datalist)
+}
+big_data<-do.call(rbind, ModelParamsFull)
+```
+
+In what follows i look at the Whole parameter Distributions.
+
+
+# Individual parameters
+After i collect the fits, we can actually nicely concatenate them.
+
+
+
+```{r}
+PosteriorMean<-big_data%>%dplyr::group_by(subject,age,conf)%>%dplyr::summarise(
+  MeanAlphaAdd=mean(alphaAdd),
+  # MeanBetaAdd=mean(betaAdd),
+  MeanRho=mean(rho),
+  meanTau=mean(tau),
+  meanOCURiskR=mean(ocuriskRisk),
+  meanOCURiskUnc=mean(ocuriskUncertainty),
+  meanOCUSafeR=mean(ocusafeRisk),
+  meanOCUSafeUnc=mean(ocusafeUncertainty)
+)%>%dplyr::mutate(
+  #MeanBoth=(((MeanAlphaAdd+MeanBetaAdd)/2)),
+  TotalInfluenceUnc=abs(meanOCUSafeUnc+meanOCURiskUnc)/2,
+  TotalInfluenceRisk=abs(meanOCUSafeR+meanOCURiskR)/2,
+  #MeanBoth=(9^((MeanAlphaAdd+MeanBetaAdd)/2)),
+  Group=case_when(
+    (age<13)~"0",
+    (age>=13 & age<16)~"1",
+    (age>=16 & age<20)~"2",
+    (age>=20 & age<23)~"3",
+    (age>=23)~"4")
+)
+
+
+QuestionnaireData%>%group_by(subject)%>%mutate(
+  SumPDS=(as.numeric(as.character(PDS1.x))+1)+(as.numeric(as.character(PDS2.x))+1)+(as.numeric(as.character(PDS3.x))+1)
+)%>%mutate(PubertyStage=case_when(
+  (SumPDS==4)~1,
+  (SumPDS>=4 & SumPDS<6)~2,
+  (SumPDS>=6 & SumPDS<8)~3,
+  (SumPDS>=8 & SumPDS<11)~4,
+  (SumPDS>=11)~5
+))%>%select(PubertyStage,subject)%>%right_join(PosteriorMean,by = "subject")->PosteriorMean
+
+PosteriorMean$PubertyStage<-as.factor(PosteriorMean$PubertyStage)
+PosteriorMean<-PosteriorMean[!is.na(PosteriorMean$PubertyStage),]
+```
+
+## The Learning Model
+
+In each uncertain trial, Subjects see 9 pieces of evidence. These can be either red meaning a loss and blue meaning a win.
+The number of observed losses is denoted by $\beta$, the number of observed wins is denoted by $\beta$.
+In uncertain Trails, we assume that subjects update their beliefs about the outcome distribution in a quasi Bayesian manner.
+
+$$ 
+  p \sim B(\alpha^{p},\beta^{p})
+$$
+  
+  
+  
+  
+  # Everything Down here can not be more preliminary
+  
+  
+  We allow Failures and Sucesses to be subjectively over or underrepresented by raising them to the free parameter of p. If the $$p$$ value is smaller than 1 this means that as comparaed to bayes optimal; subjects put lower weight on the sequentially presented information.
+
+## The Value Model
+
+The Utility model is an expected utility model. Here we use the probability estimate which we either obtained by sampling or is described to the participant and multiply it with the subjective utility of the option. 
+Participants could choose between a safe option which always had the Value of 5 an A risky option which can be computed as the probability of occurance times the utility.
+
+$$ 
+  EU_{solo}=p*V^\rho
+$$
+  ##Social Influence
+  
+$$
+  EU_{Social_{safe}}=EU_{solo}+\psi_{safe} \;\;\;\;  \forall Advice = Safe \\
+EU_{Social_{risk}}=EU_{solo}+\psi_{Risk} \;\;\;\; \forall Advice = Risky
+$$
+  
+  
+  
+  
+  
+## The Choice Model
+  The choice model takes the negative difference of these utilites $\Delta Ut$ and translates it into a choice probability by the sigmoid transformation which scales the difference between utils up and down.
+
+$$
+  p_{ChooseRisk}=\frac{1}{1+e^{- (EU_{safe}-EU_{risk})*\tau}}
+$$
+  
+# Parameter Estimates
+  
+  In what follows i Show yu the mean of the parameter Estiamtes.  This all makes sense. In a nutshell. Younger participants underweight more -> more uncertainty.
+Younger participants follow advice stronger, not only risky but also safe advice. There is no adolecent peak but always seemingly linear effects.
+
+#Learning Scaling: p
+A lot of values are close to 0. Maybe we should talk about the boundaries for this parameter. Even if the exponent is negative, it will only approximate 0, but never get negative in itself so mathematically it would still make sense but we would allow subjects to be EVEN MORE UNCERTAIN. I mean, thats reasonable? 
+
+```{r, fig.height=10,fig.width=10}
+library(lme4)
+#lm(MeanAlphaAdd~age,data=PosteriorMean)
+
+ggplot(PosteriorMean,aes(x=Group,y=MeanAlphaAdd))+
+  stat_summary(fun.data = "mean_se")+scale_x_discrete(name="PubertyStage")+ geom_boxplot(aes(color=Group))+
+  scale_color_viridis_d(name="PubertyStage")+
+  #stat_summary(fun.data = "mean_se")+scale_x_discrete(name="PubertyStage",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))+
+  geom_hline(aes(yintercept=1),linetype="dotdash",alpha=0.2)->learn
+print(learn)
+ggsave(file='X_Figures/Learning.pdf')
+```
+
+#Reward Sensitvity
+
+```{r}
+#lm(meanTau~poly(age,2),data=PosteriorMean)
+
+ggplot(PosteriorMean,aes(x=Group,y=MeanRho))+
+  #geom_jitter(aes(color=PubertyStage),alpha=0.3)+
+  scale_color_viridis_d(name="PubertyStage")+
+  stat_summary(fun.data = "mean_se")+scale_x_discrete(name="PubertyStage",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))+
+  geom_hline(aes(yintercept=1),linetype="dotdash",alpha=0.2)
+```
+
+#Stochastizity?
+
+```{r}
+#lm(meanTau~poly(age,2),data=PosteriorMean)
+
+ggplot(PosteriorMean,aes(x=Group,y=meanTau))+
+  geom_jitter(aes(color=PubertyStage),alpha=0.3)+
+  scale_color_viridis_d(name="PubertyStage")+
+  stat_summary(fun.data = "mean_se")+scale_x_discrete(name="PubertyStage",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))
+```
+
+# OCU Risk Decisions from Description
+
+```{r}
+#lm(meanOcuR~poly(age,2),data=PosteriorMean)
+
+ggplot(PosteriorMean,aes(x=Group,meanOCURiskR))+
+  geom_jitter(aes(color=(Group)),alpha=0.3)+
+  stat_summary(fun.data = "mean_se")+
+  # scale_x_continuous(name="PubertyStage",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))+
+  scale_color_viridis_d(name="PubertyStage")+
+  geom_smooth(method="lm")+
+  geom_hline(aes(yintercept=0),linetype="dotdash",alpha=0.2)
+```
+
+# OCU Risk Decisions from Experience
+
+```{r}
+#lm(meanOcuR~poly(age,2),data=PosteriorMean)
+ggplot(PosteriorMean,aes(x=Group,meanOCURiskUnc))+
+  geom_jitter(aes(color=age),alpha=0.3)+
+  stat_summary(fun.data = "mean_se")+#scale_x_discrete(name="PubertyStage",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))+
+  #scale_color_viridis_d(name="PubertyStage")+
+  geom_smooth(method="lm")+geom_hline(aes(yintercept=0),linetype="dotdash",alpha=0.2)
+```
+
+# OCU Safe Decisions from Description
+
+```{r}
+#lm(meanOcuR~poly(age,2),data=PosteriorMean)
+
+ggplot(PosteriorMean,aes(x=Group,meanOCUSafeR))+
+  geom_jitter(aes(color=PubertyStage),alpha=0.3)+
+  stat_summary(fun.data = "mean_se")+scale_x_discrete(name="PubertyStage",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))+
+  scale_color_viridis_d(name="PubertyStage")+
+  geom_smooth(method="lm")+geom_hline(aes(yintercept=0),linetype="dotdash",alpha=0.2)
+```
+
+
+# OCU Safe Decisions from Experience
+
+```{r}
+#lm(meanOcuR~poly(age,2),data=PosteriorMean)
+
+ggplot(PosteriorMean,aes(x=Group,meanOCUSafeUnc))+
+  geom_jitter(aes(color=PubertyStage),alpha=0.3)+
+  stat_summary(fun.data = "mean_se")+scale_x_discrete(name="PubertyStage",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))+
+  scale_color_viridis_d(name="PubertyStage")+
+  geom_smooth(method="lm")+geom_hline(aes(yintercept=0),linetype="dotdash",alpha=0.2)
+```
+
+
+#one plot
+
+```{r, fig.width=10,fig.heigh=5}
+
+PosteriorMean%>%gather(key="RiskUnc",value="measurement", meanOCURiskR,meanOCURiskUnc)%>%
+  ggplot(aes(y=measurement,x=RiskUnc,color=Group,group=Group))+
+  geom_point(aes(group=Group),width=0.1,position=position_dodge(0.9),alpha=0.1)+
+  stat_summary(fun.data = mean_cl_boot,position=position_dodge(0.9),color="black")+
+  #scale_color_viridis_d(name="PubertyStage")+
+  geom_hline(yintercept = 0, linetype="dotdash", alpha=0.3)+
+  ylab("Socail Influence")+
+  scale_color_viridis_d(name="PubertyStage")+#,breaks=c("1","2","3"), labels=c("Pre-Adolescence","Adolescence","Post-Adoelscence"))+
+  scale_x_discrete(name="Risk & Uncertainty", breaks=c("meanOCURiskR","meanOCURiskUnc"),labels=c("Risk","Uncertainty"))+
+  ggtitle("Social Influence on Risky Decisions")->Risky
+plot(Risky)
+ggsave(file='X_Figures/OCURisk.pdf')
+
+
+
+
+PosteriorMean%>%gather(key="RiskUnc",value="measurement", meanOCUSafeR,meanOCUSafeUnc)%>%
+  ggplot(aes(y=measurement,x=RiskUnc,color=Group,group=Group))+
+  geom_point(aes(group=Group),width=0.1,position=position_dodge(0.9),alpha=0.1)+
+  stat_summary(fun.data = mean_cl_boot,position=position_dodge(0.9),color="black")+
+  geom_hline(yintercept = 0, linetype="dotdash", alpha=0.3)+
+  ylab("Socail Influence")+
+  scale_x_discrete(name="Risk & Uncertainty", breaks=c("meanOCUSafeR","meanOCUSafeUnc"),labels=c("Risk","Uncertainty"))+
+  scale_color_viridis_d(name="PubertyStage")+#breaks=c("1","2","3"), labels=c("Pre-Adolescence","Adolescence","Post-Adoelscence"))+
+  ggtitle("Social Influence on Safe Decisions")->Safe
+plot(Safe)
+ggsave(file='X_Figures/OCUSafe.pdf')
+
+#cowplot::plot_grid(Risky,Safe)
+```
+
+# Social Influence and Learning?
+The smaller alpha, the more uncertainty, the more social influence. 
+```{r}
+#lm(meanOcuR~poly(age,2),data=PosteriorMean)
+
+ggplot(PosteriorMean,aes(x=TotalInfluenceUnc,y = MeanAlphaAdd))+
+  geom_point(aes(color=Group),alpha=0.3)+
+  stat_summary(fun.data = "mean_se")+#scale_x_continuous(name="SocialInfluence Uncertainty",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))+
+  scale_color_viridis_d(name="PubertyStage")+
+  geom_smooth(method="lm")+geom_hline(aes(yintercept=1),linetype="dotdash",alpha=0.2)+
+  ggtitle("Social Influence And Uncertainty")
+```
+
+
+```{r}
+ModelParamsFull=list()
+subCount=1
+for (j in 1:length(unique(MarbleData$Agegroup))){
+  print(j)
+  ModelFit<-readRDS(paste0("C_ModelFits/BACK_ModelLongleLonglessTree_9Age_",j,".rds"))
+  Parameters<-(rstan::extract(ModelFit))
+  #library(tidyverse)
+  
+  #Bin_Update_Data<-Bin_Update_Data[Bin_Update_Data$typeRA=="1",]# keep only The Risk trails.
+  Bin_Update_Data<-MarbleData%>%arrange(Agegroup)# i order it first so i can make sure that 
+  Group<-unique(Bin_Update_Data$Agegroup)# for indexing my PubertyStages.
+  #make it fit with my stan file.
+  Bin_Update_Data<-Bin_Update_Data%>%dplyr::mutate(
+    OtherChoseRisk = case_when(
+      OtherChoseRisk=="NULL" ~ 2,# i dont need this but i restricted the numbers in stan between 1 and 3
+      OtherChoseRisk=="1" ~ 3,# risky choices are coded as 3 in my stan code
+      OtherChoseRisk=="0" ~ 1,# safe choices are coded as 1 in my stan code
+      TRUE~0 # keep the rest.
+    )
+  )#end PeerChoice.
+  
+  Bin_Update_Data<-Bin_Update_Data[Bin_Update_Data$Agegroup==Group[j],]
+  #subset it to fit on only one PubertyStage. 
+  # now check how many participants we have.
+  Bin_Update_Data$subject<-as.numeric(Bin_Update_Data$subject)
+  numSubjs<-length(unique(Bin_Update_Data$subject))#Total Number of Subs
+  subjList <- unique(Bin_Update_Data$subject)######
+  ageList<-Bin_Update_Data%>%group_by(subject)%>%dplyr::summarize(
+    age=mean(age)
+  )%>%select(age)%>%ungroup()
+  
+  ageList=as.vector(ageList$age)
+  confList<-Bin_Update_Data%>%filter(HowSure!=102)%>%group_by(subject)%>%dplyr::summarise(
+    Confidence=mean(HowSure)
+  )
+  confList=as.vector(confList$Confidence)
+  
+  
+  datalist = list()
+  for(i in 1:dim(Parameters$alpha_add)[2]){
+    df=data.frame(
+      alphaAdd=as.vector(Parameters$alpha_add[,i]),
+      #  betaAdd=as.vector(Parameters$beta_add[,i]),
+      rho=as.vector(Parameters$rho[,i]),
+      tau=as.vector(Parameters$tau[,i]),
+      #ocusafeRisk=as.vector(Parameters$Unc_Beta[,i]),
+      RiskAdd=as.vector(Parameters$UncertaintyMulti_Risk[,i]),
+      UncAdd=as.vector(Parameters$UncertaintyMulti[,i]),
+      subject=subjList[i],
+      age=ageList[i],# Here i need to get some kind of dictionary.
+      conf=confList[i]
+      #simulatedMean=Parameters$y_pred[,i]
+    )
+    # subCount=subCount+1
+    datalist[[i]] <- df 
+    print(subjList[i])
+  }
+  ModelParamsFull[[j]] <- do.call(rbind, datalist)
+}
+big_data<-do.call(rbind, ModelParamsFull)
+```
+
+In what follows i look at the Whole parameter Distributions.
+
+
+# Individual parameters
+After i collect the fits, we can actually nicely concatenate them.
+
+```{r, fig.height=5,fig.width=5}
+PosteriorMean<-big_data%>%dplyr::group_by(subject,age,conf)%>%dplyr::summarise(
+  MeanAlphaAdd=mean(alphaAdd),
+  MeanRho=mean(rho),
+  meanTau=mean(tau),
+  UncAdd=mean(UncAdd),
+  MeanRiskAdd=mean(RiskAdd)
+  #meanOCUSafeUnc=mean(ocusafeUncertainty)
+)%>%dplyr::mutate(
+  #MeanBoth=(((MeanAlphaAdd+MeanBetaAdd)/2)),
+  #TotalInfluenceUnc=abs(meanOCUSafeUnc+meanOCURiskUnc)/2,
+  #TotalInfluenceRisk=abs(meanOCUSafeR+meanOCURiskR)/2,
+  #MeanBoth=(9^((MeanAlphaAdd+MeanBetaAdd)/2)),
+  Group=case_when(
+    (age<13)~"0",
+    (age>=13 & age<16)~"1",
+    (age>=16 & age<20)~"2",
+    (age>=20 & age<23)~"3",
+    (age>=23)~"4")
+)
+
+
+QuestionnaireData%>%group_by(subject)%>%mutate(
+  SumPDS=(as.numeric(as.character(PDS1.x))+1)+(as.numeric(as.character(PDS2.x))+1)+(as.numeric(as.character(PDS3.x))+1)
+)%>%mutate(PubertyStage=case_when(
+  (SumPDS==4)~1,
+  (SumPDS>=4 & SumPDS<6)~2,
+  (SumPDS>=6 & SumPDS<8)~3,
+  (SumPDS>=8 & SumPDS<11)~4,
+  (SumPDS>=11)~5
+))%>%select(PubertyStage,subject)%>%right_join(PosteriorMean,by = "subject")->PosteriorMean
+
+PosteriorMean$PubertyStage<-as.factor(PosteriorMean$PubertyStage)
+PosteriorMean<-PosteriorMean[!is.na(PosteriorMean$PubertyStage),]
+
+
+ggplot(PosteriorMean,aes(x=Group,y=MeanRho))+
+  stat_summary(fun.data = "mean_cl_boot")+
+  geom_smooth(method="lm")+geom_jitter(aes(color=age))+scale_color_viridis_c()+
+  coord_cartesian(ylim=c(0,2))+geom_hline(aes(yintercept=1),linetype="dotted")+
+  scale_x_discrete(name="Adolescencent Stage",breaks=as.numeric(breaks),labels = labels2)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12))+theme_cowplot()
+
+
+
+
+Hmisc::rcorr(PosteriorMean$age,PosteriorMean$MeanRho)
+#+geom_boxplot(aes(color=age))
+
+ggplot(PosteriorMean[PosteriorMean$age>17,],aes(x=as.numeric(Group),y=(UncAdd)))+
+  stat_summary(aes(color=age),fun.data = "mean_cl_boot")+geom_smooth(method="lm")+scale_color_viridis_c()+theme_cowplot()+
+  scale_y_continuous(name=(expression(eta)))+geom_jitter(alpha=0.3)+geom_hline(aes(yintercept=0),linetype="dotted")+
+  #coord_cartesian(ylim=c(1,2))+
+  scale_x_discrete(name="Adolescencent Stage",breaks=as.numeric(breaks),labels = labels2)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12))+
+  ggtitle("Weight of Social Information")
+ggsave("eta2.pdf")
+
+
+Hmisc::rcorr(PosteriorMean$age,PosteriorMean$UncAdd)
+
+ggplot(PosteriorMean,aes(x=as.numeric(Group),y=(MeanRiskAdd)))+
+  stat_summary(aes(color=age),fun.data = "mean_cl_boot")+geom_smooth(method="lm")+scale_color_viridis_c()+theme_cowplot()+
+  scale_y_continuous(name=(expression(eta)))+geom_jitter(alpha=0.3)+geom_hline(aes(yintercept=0),linetype="dotted")+
+  scale_x_discrete(name="Adolescencent Stage",breaks=as.numeric(breaks),labels = labels2)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12))+ggtitle("Weight of Social Information")
+
+ggplot(PosteriorMean,aes(x=as.numeric(Group),y=MeanAlphaAdd))+
+  stat_summary(aes(color=age),fun.data = "mean_cl_boot")+geom_smooth(method="lm",color="black")+scale_color_viridis_c()+
+  scale_y_continuous(name=(expression(zeta)))+geom_jitter(alpha=0.3)+coord_cartesian(ylim=c(0,2))+
+  geom_hline(aes(yintercept=1),linetype="dotdash",size=1.5,alpha=.5,color="magenta")+
+  scale_x_continuous(name="",breaks=as.numeric(breaks),labels = labels2)+
+  annotate("text", x = 1.05, y = 1.2, label = "Bayes Optimal",color="magenta")+theme_cowplot()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12))+ggtitle("Weight of\nNew Evidence")->B
+ggsave("zeta.pdf")
+
+Hmisc::rcorr(PosteriorMean$age,PosteriorMean$MeanAlphaAdd)
+
+ggplot(PosteriorMean,aes(x=as.numeric(Group),y=(UncAdd)))+
+  stat_summary(aes(color=as.numeric(Group)),fun.data = "mean_cl_boot")+geom_smooth(method="lm")+scale_color_viridis_c()+
+  theme_cowplot()+
+  scale_y_continuous(name=(expression(eta)))+geom_jitter(alpha=0.3)+geom_hline(aes(yintercept=0),linetype="dotted")+
+  scale_x_continuous(name="Adolescencent Stage",breaks=as.numeric(breaks),labels = labels2)+
+  guides(color=F)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12))+ggtitle("Weight \nSocial Information")
+
+
+
+ggplot(PosteriorMean[PosteriorMean$age>17,],aes(x=MeanAlphaAdd,y = UncAdd))+
+  geom_point(alpha=0.3)+
+  stat_summary(fun.data = "mean_cl_boot")+#scale_x_continuous(name="SocialInfluence Uncertainty",breaks=c("1","2","3"),labels=c("Age 10-12","Age 13-18","Age >18"))+
+  scale_color_viridis_c(name="Age")+
+  geom_smooth(method="lm")+geom_hline(aes(yintercept=1),linetype="dotdash",alpha=0.2)+
+  coord_cartesian(xlim=c(0,2))+
+  scale_x_continuous(name=(expression(zeta)))+
+  scale_y_continuous(name=(expression(eta)))+
+  ggtitle("Social Influence And Uncertainty")+theme_cowplot()
+
+ggsave("Corr2.pdf")
+
+Hmisc::rcorr(PosteriorMean[PosteriorMean$age>17,]$MeanAlphaAdd,PosteriorMean[PosteriorMean$age>17,]$UncAdd)
+anova(lm(UncAdd~MeanAlphaAdd,data=PosteriorMean[PosteriorMean$age>17,]))
+
+
+
+PosteriorMean%>%filter(age>17)%>%group_by(Group)%>%gather(key="UncOrRisk",value="Estimate",MeanRiskAdd,UncAdd)%>%mutate(
+  UncOrRisk~(as.factorUncOrRisk)
+)%>%
+  ggplot(aes(x=UncOrRisk,y=Estimate,group=UncOrRisk,shape=UncOrRisk,linetype=UncOrRisk))+
+  geom_jitter(aes(color=UncOrRisk),alpha=0.2)+
+  geom_hline(aes(yintercept=1),linetype="dotted")+
+  geom_smooth(method="lm",color="black")+
+  #annotate("text", x = 0.05, y = 1.07, label = "No Influence")+
+  stat_summary(fun.data = "mean_cl_boot",position=position_dodge(0.1))+
+  scale_shape_discrete(name="Condition",breaks=c("MeanRiskAdd","UncAdd"),labels=c(expression(eta*" Risk"),expression(eta*" Uncertain")))+
+  scale_y_continuous(name="posterior mean")+
+  #scale_x_continuous(name="",breaks=as.numeric(breaks),labels = labels2)+
+  guides(linetype=F,color=F)+
+  ggtitle("Social Impact")+theme_cowplot()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12),
+        legend.position = c(.95, .95),
+        legend.justification = c("right", "top"),
+        legend.box.just = "right",
+        legend.margin = margin(6, 6, 6, 6))->A
+
+
+print(A)
+print(B)
+```
+# look how different risk and uncertainty social influence are.
+From ine another by age
+```{r}
+library(brms)
+library(tidybayes)
+uneq_var_frm <- bf(Estimate ~ UncOrRisk)
+PosteriorTTest<-PosteriorMean%>%group_by(Group)%>%gather(key="UncOrRisk",value="Estimate",MeanRiskAdd,UncAdd)
+Kids <- brm(uneq_var_frm, data = PosteriorTTest[PosteriorTTest$Group=="0",], cores=4)
+EarlyAdol <- brm(uneq_var_frm, data = PosteriorTTest[PosteriorTTest$Group=="1",], cores=4)
+MidAdol <- brm(uneq_var_frm, data = PosteriorTTest[PosteriorTTest$Group=="2",], cores=4)
+LateAdol <-brm(uneq_var_frm, data= PosteriorTTest[PosteriorTTest$Group=="3",],cores=4)
+Adul <-brm(uneq_var_frm, data= PosteriorTTest[PosteriorTTest$Group=="4",],cores=4)
+
+Adul <-brm(uneq_var_frm, data= PosteriorTTest[PosteriorTTest$age>17,],cores=4)
+
+```
+
+# Look at the effect Size
+
+```{r}
+KidsEffectSize<-Kids%>%spread_draws(b_UncOrRiskUncAdd)
+EarlyAdolEffectSize<-EarlyAdol%>%spread_draws(b_UncOrRiskUncAdd)
+MidAdolEffectSize<-MidAdol%>%spread_draws(b_UncOrRiskUncAdd)
+LateAdolEffectSize<-LateAdol%>%spread_draws(b_UncOrRiskUncAdd)
+AdulEffectSize<-Adul%>%spread_draws(b_UncOrRiskUncAdd)
+library(ggridges)
+data.frame(
+  #Desireable$delta
+  #"1"=KidsEffectSize$b_UncOrRiskUncAdd,
+  #"2"=EarlyAdolEffectSize$b_UncOrRiskUncAdd,
+  #"3"=MidAdolEffectSize$b_UncOrRiskUncAdd,
+  #"4"=LateAdolEffectSize$b_UncOrRiskUncAdd,
+  "5"=AdulEffectSize$b_UncOrRiskUncAdd
+)%>%gather(key="scale",value="sample")%>%ggplot(aes(x=sample,y=scale,color=scale))+
+  geom_density_ridges(rel_min_height = 0.01,alpha=0.4,quantiles = c(0.025,0.5, 0.975),quantile_lines = TRUE)+
+  #geom_histogram(bins=1000,position = "dodge",alpha=0.5)+
+  #geom_vline(xintercept = 0)+
+  geom_vline(xintercept = 0.2,linetype="dashed")+
+  #geom_vline(xintercept = -0.2,linetype="dashed")+
+  scale_color_viridis_d(name="Condition")+
+  scale_x_continuous(name="Posterior effect size")+
+  scale_y_discrete(name="Adolescent Stage",breaks=c("X1","X2","X3","X4","X5"),labels=c("Pre","Early","Mid","Late","Post"))+
+  ggtitle("SI Learning >\n SI Risk")+theme_cowplot()+guides(color=F)+coord_flip()+theme(axis.text.x = element_text(angle = 45, hjust = 1),
+                                                                                        plot.title = element_text(hjust = 0.5, vjust=2.12))->C
+
+
+#->Sims_Rand
+```
+
+
+# Posterior Predictives
+```{r}
+GroupedMarble<-MarbleData%>% 
+  group_by(Agegroup)%>%arrange((Agegroup))
+GroupedMarble$rho<-NA
+GroupedMarble$tau<-NA
+GroupedMarble$RiskInf<-NA
+GroupedMarble$UncInf<-NA
+GroupedMarble$Weight<-NA
+
+
+subz<-unique(GroupedMarble$subject)
+for(i in 1:length(subz)){
+  GroupedMarble[GroupedMarble$subject==subz[i],]$rho<-PosteriorMean$MeanRho[i]
+  GroupedMarble[GroupedMarble$subject==subz[i],]$tau<-PosteriorMean$meanTau[i]
+  GroupedMarble[GroupedMarble$subject==subz[i],]$RiskInf<-PosteriorMean$MeanRiskAdd[i]
+  GroupedMarble[GroupedMarble$subject==subz[i],]$UncInf<-PosteriorMean$UncAdd[i]
+  GroupedMarble[GroupedMarble$subject==subz[i],]$Weight<-PosteriorMean$MeanAlphaAdd[i]
+}
+GroupedMarble$meanPostPred<-NA
+
+for(AgeIDX in 2:length(unique(GroupedMarble$Agegroup))){
+  # okay whatever model i want to look at.
+  #i should´ve saved this but i didnt k.
+  ModelFit<-readRDS(paste0("C_ModelFits/BACK_ModelLongleLonglessTree_9Age_",AgeIDX,".rds"))
+  #print(paste0("Processing... \n Age",Agegroups[AgeIDX],"_Braams_ModelFits",Models[WinnerIDX],".RData"))
+  subz<-unique(GroupedMarble[GroupedMarble$Agegroup==Agegroups[AgeIDX],]$subject)
+  # subz<-unique(GroupedMarble$subject)
+  params<-rstan::extract(ModelFit)
+  for(i in 1:length(subz)){
+    #data=GroupedMarble[GroupedMarble$subject==subz[i],]#subset
+    postPred<-params$y_pred[,i,]
+    #-1 refers a the dummy that was used in stan. only use the ones where it worked. This Means: Use Only these Rows and Columns for Replacement that are not the Dummy anymore.
+    GroupedMarble[GroupedMarble$subject==subz[i],]$meanPostPred<-apply(postPred[postPred[,1]!=-1,postPred[1,]!=-1],2,mean)#attach the simulations and use the mean of the choices.
+  }#endSubzPerAge
+}#endAgeloop
+```
+
+#Posterior Predictives
+```{r}
+# first check if the data looks like in the paper. OK NOW I NEED TO ADD TRIALWISE POSTERIOR PREDICTIVES HERE!
+GroupedMarble$OtherChoseRisk=as.character(MarbleData$OtherChoseRisk)
+GroupedMarble%>%mutate(OtherChoseRisk=case_when(
+  OtherChoseRisk=="1"~"3",
+  OtherChoseRisk=="NULL"~"2",
+  OtherChoseRisk=="0"~"1"
+))%>%ggplot(aes(y=as.numeric(ChooseRisk),x=as.numeric(Agegroup),shape=OtherChoseRisk))+
+  #stat_summary(aes(group=as.factor(OtherChoseRisk),alpha=as.numeric(OtherChoseRisk)),fun.y = 'mean', fun.ymin = function(x) 0, geom = 'bar', position = 'dodge',color="black")+
+  stat_summary(aes(group=as.factor(OtherChoseRisk),x=as.numeric(Agegroup)+0.05,color="Subjects:\n Mean + 95CI\n"),fun.y = mean, fun.ymin =function(x) mean(x) - 1.960*(sd(x)/sqrt(length(x))), fun.ymax =function(x) mean(x)+ 1.960*(sd(x)/sqrt(length(x))),
+               position=position_dodge(0.5))+
+  #add posterior predictives
+  stat_summary( mapping = aes (y = meanPostPred,group=as.factor(OtherChoseRisk),color="Posterior Predicitve:\n  Mean + 95CI\n"),fun.y = mean,
+                fun.ymin =function(x) mean(x) -  1.960*(sd(x)/sqrt(length(x))), fun.ymax =function(x) mean(x)+  1.960*(sd(x)/sqrt(length(x))),
+                size=0.5, 
+                position = position_dodge(0.5)) + 
+  #scale_fill_discrete(name="Social Condition",breaks=c(1,2,3),labels=c("OtherSafe","Solo","OtherRisk"))+
+  ylab("% Risky Choice")+
+  scale_x_continuous(name="Adolescent Stage",breaks=as.numeric(breaks),labels = labels2)+
+  ggtitle("Behavioral Results + Model Predictions")+theme_cowplot()+
+  #coord_cartesian(ylim=c(0.22,0.5))+
+  # scale_x_continuous(name="Agegroup",breaks=c(1,2,3,4),labels=c("Pre-Adolescent","Early-Adolescent","Late-Adolescent","Adult"))+
+  scale_shape_discrete(name="Condition",breaks=c("1","2","3"),labels=c("Other-Safe","Solo","Other-Risk"))+
+  scale_color_manual(name="Aggregate Measures",breaks =c("Posterior Predicitve:\n  Mean + 95CI\n","Subjects:\n Mean + 95CI\n"), values = c('deepskyblue','black'))+
+  theme_cowplot()+theme(axis.text.x = element_text(angle = 45, hjust = 1),
+                        plot.title = element_text(hjust = 0.5, vjust=2.12))->D
+print(D)
+#facet_grid(.~DFE1DFD0)
+
+#print(A)
+```
+
+```{r,fig.height=7,fig.width=10}
+cowplot::plot_grid(A,NULL,C,NULL,B,nrow=1,rel_widths = c(1,0.1,1,0.1,1),labels = c("A","","B","C"))->plot1
+cowplot::plot_grid(plot1,NULL,D,nrow = 3,rel_heights = c(1,0.1,1),labels=c("","","D"))
+ggsave("X_Figures/Miniconfplot.pdf")
+```
+# Behavior Change
+here i plot the mean Behavior change per trailtype given the advisors choice. Looks huge!
+  
+```{r eval=F}
+
+#GroupedMarble$meanPostPred
+
+# maybe
+MarbleData%>%group_by(Agegroup,DFE1DFD0,Social1Ind0)%>%dplyr::summarise(
+  PercentRiskyChoice=mean(ChooseRisk),
+  ci=sd(ChooseRisk)/sqrt(n())
+)%>%ungroup()%>%group_by(Agegroup,DFE1DFD0)%>%filter(Social1Ind0==0)->Solo
+
+Solo$Diff<-Social$PercentRiskyChoice-Solo$PercentRiskyChoice
+
+Solo%>%ggplot(aes(y=Diff,fill=DFE1DFD0,x=Agegroup))+geom_bar(stat="identity",position = "dodge",color= "black")+
+  #scale_x_discrete(name="PubertyStage",breaks=c(0,1,2),labels=c("Kids","Adolescents","Adults"))+
+  geom_errorbar( mapping=aes(y=Diff, ymin=Diff-ci, ymax=Diff+ci),position="dodge")+
+  scale_y_continuous(name="Mean Difference Social Solo")+
+  scale_fill_discrete(name="Social Condition",breaks=c(0,1),labels=c("Risk","Uncertainty"))
+
+# mean behavior change towards social information.
+MarbleData$ID<-MarbleData%>%group_by(valueGamble,probGamble)%>%group_indices()
+IDs<-MarbleData
+
+IDs[IDs$OtherChoseRisk=="NULL",]%>%group_by(subject,ID,DFE1DFD0,Agegroup)%>%dplyr::summarize(
+  meanRisk=mean(ChooseRisk)
+)%>%arrange(subject,ID)->Solo
+
+IDs[IDs$OtherChoseRisk=="1",]%>%group_by(subject,ID,DFE1DFD0,Agegroup)%>%dplyr::summarize(
+  meanRiskyRiskyOther=mean(ChooseRisk)
+)%>%arrange(subject,ID)->OtherRisky
+
+
+IDs[IDs$OtherChoseRisk=="0",]%>%group_by(subject,ID,DFE1DFD0,Agegroup)%>%dplyr::summarize(
+  meanRiskySafeOther=mean(ChooseRisk)
+)%>%arrange(subject,ID)->OtherSafe
+
+One<-merge(x=Solo,y=OtherRisky, by=c("ID","subject","DFE1DFD0","Agegroup"),all.x = TRUE)
+Two<-merge(x=One,y=OtherSafe,by=c("ID","subject","DFE1DFD0","Agegroup"),all.x=TRUE)
+
+Two%>%mutate(
+  ChangeTowardsSafeOther=meanRiskySafeOther-meanRisk,
+  ChangeTowardsRiskyOther=meanRiskyRiskyOther-meanRisk
+)%>%group_by(subject,DFE1DFD0,Agegroup)%>%dplyr::summarise(
+  meanChangeTowardsRisky=mean(ChangeTowardsRiskyOther,na.rm = TRUE),
+  meanChangeTowardsSafe=abs(mean(ChangeTowardsSafeOther,na.rm = TRUE))
+)->meanChange
+
+labelsOther=c("meanChangeTowardsRisky"="Towards Risky",
+              "meanChangeTowardsSafe"="Towards Safe")
+
+meanChange%>%pivot_longer(names_to = "measurement",cols=c(meanChangeTowardsRisky,meanChangeTowardsSafe))%>%ggplot(aes(x=Agegroup,y=value,color=measurement))+stat_summary(fun.data="mean_cl_boot",position = position_dodge(0.2))+
+  geom_hline(aes(yintercept=0),linetype="dotdash",alpha=0.2)+
+  scale_y_continuous("% Change")+
+  scale_shape_discrete(name="Uncertainty",breaks=c("0","1"),labels=c("Risk","Uncertain"))+
+  facet_grid(~DFE1DFD0,labeller = labeller(DFE1DFD0 = labelsRiskUnc)
+  )+
+  theme_cowplot()+
+  scale_x_discrete(name="Adolescencent Stage",breaks=as.numeric(breaks),labels = labels2)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12))+
+  ggtitle("Policiy Change | Others Choice")
+ggsave("X_Figures/Behavior.pdf")
+
+
+meanChange%>%pivot_longer(names_to = "measurement",cols=c(meanChangeTowardsRisky,meanChangeTowardsSafe))%>%ggplot(aes(x=Agegroup,y=value,color=Agegroup,shape=DFE1DFD0))+stat_summary(fun.data="mean_se",position = position_dodge(0.2))+#geom_jitter(color="black",alpha=0.2)+
+  geom_hline(aes(yintercept=0),linetype="dotdash",alpha=0.2)+
+  scale_y_continuous("% Change")+
+  scale_color_viridis_d()+
+  scale_shape_discrete(name="Uncertainty",breaks=c("0","1"),labels=c("Risk","Uncertain"))+
+  facet_grid(~measurement,labeller = labeller(measurement = labelsOther)
+  )+
+  theme_cowplot()+
+  scale_x_discrete(name="Adolescencent Stage",breaks=as.numeric(breaks),labels = labels2)+
+  guides(color=F)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12))+
+  ggtitle("Policiy Change | Others Choice")->behavChange
+print(behavChange)
+ggsave("X_Figures/Behavior.pdf")
+```
+
+```{r eval=FALSE}
+Questions_Marbles=merge(x=TidyQuestionnaireWideSums,y=ChangeLucas,by = "subject",all.x = TRUE)%>%mutate(subject=as.numeric(subject))%>%arrange(subject)
+Questions_Marbles_Eyes=merge(x=Questions_Marbles,y=MindInEyes,by = "subject",all.x=TRUE)%>%mutate(subject=as.numeric(subject))
+Questions_Marbles_Eyes_Numbers=merge(x=Questions_Marbles_Eyes,y=numbersResults,by = "subject",all.x=TRUE)%>%mutate(subject=as.numeric(subject))
+Questions_Marbles_Eyes_Numbers_Matrix=merge(x=Questions_Marbles_Eyes_Numbers,y=cftResults,by = "subject",all.x=TRUE)%>%mutate(subject=as.numeric(subject))
+
+
+damn=tibble(subject=1:200)# make it have 200 entries
+
+Questions_Marbles_Eyes_Numbers_Matrix=merge(x=damn,y=Questions_Marbles_Eyes_Numbers_Matrix,by="subject",all.x=TRUE)%>%mutate(subject=as.numeric(subject))%>%arrange(subject)
+#Questions_Marbles_Eyes_Numbers_Matrix[,]
+
+LucasWideData=unique(dplyr::select(Questions_Marbles_Eyes_Numbers_Matrix, -c("sex.y","age.y")))
+
+write.csv(LucasWideData,"AllThingsIMeasured.csv")
+#ggplot(aes(x=age,y=value,color=risky_safe_Change))+geom_point()+geom_smooth(method=lm)+facet_grid(.~DFE1DFD
+
+```
+
+
+
+
+
+
+---
+title: "Cutouts"
+author: "Simy"
+date: "24/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Inspect New Model Params
+
+In what follows i fitted a [model to my data](B_Model_Code/NonCentered_GenBeta_Linear_Social.stan).
+The model spans up a distribution over possible rewards and computes choice probabilies via integrating over them.
+We assume that this utility distribution is
+
+```{r}
+AllModels<-list()
+Agegroups=c("0","1","2","3","4")
+MarbleData<-MarbleData%>%mutate(Agegroup=case_when(
+  (age<13)~"0",
+  (age>=13 & age<16)~"1",
+  (age>=16 & age<20)~"2",
+  (age>=20 & age<23)~"3",
+  (age>=23)~"4"
+)
+)
+```
+
+# Subject Level params
+```{r}
+GeneralBetaEstimates<-tibble()
+#library(tibble)
+#library(dplyr)
+
+for(i in 1:5){
+  MarbleData2<-MarbleData%>%filter(Agegroup==Agegroups[i])#Bin_Update_Data<-Bin_Update_Data[Bin_Update_Data$typeRA=="1",]# keep only The Risk trails.
+  subs=unique(MarbleData2$subject)
+  NSubs=length(subs)
+  AllModels[[i]]<-readRDS(paste0("C_ModelFits/GeneralBetaFit_NewPreds_Compression_Optim_Age_",Agegroups[i],".rds"))
+  AllModels[[i]]%>%tidybayes::spread_draws(alpha_add[1:NSubs],rho[1:NSubs],UncertaintyMulti_Risk[1:NSubs],UncertaintyMulti[1:NSubs])%>%mutate(subject=subs[as.numeric(`1:NSubs`)])%>%bind_rows(GeneralBetaEstimates)->GeneralBetaEstimates
+}
+GeneralBetaEstimates%>%left_join(MarbleData%>%select(age,subject,Agegroup),by="subject")%>%pivot_longer(names_to = "parameter",values_to = "estimate",cols = c(alpha_add,rho,UncertaintyMulti_Risk,UncertaintyMulti))->GeneralBetaEstimates
+
+summarized<-GeneralBetaEstimates%>%group_by(subject,age,parameter,Agegroup)%>%dplyr::summarise(
+  posteriorMean=mean(estimate)
+)%>%ungroup()
+```
+
+
+
+# Look at Agetrends in the Parameters
+```{r}
+breaks=c(0,1,2,3,4)
+labels2 <- c("pre","early","mid","late","post")
+
+summarized%>%filter(parameter=="alpha_add")%>%ggplot(aes(x=as.numeric(Agegroup),y=posteriorMean,color=age))+geom_jitter(alpha=0.1)+
+  stat_summary(fun.data="mean_cl_boot",geom="pointrange")+geom_hline(yintercept = 1,size=1)+
+  scale_x_continuous(name="Adolescence Stage",breaks = breaks,labels=labels2)+
+  scale_color_viridis_c()+
+  coord_cartesian(ylim=c(0,2))+
+  ggtitle(expression(rho))+
+  stat_smooth(method="lm",color="black")+theme_minimal(14)+
+     theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12)
+        #panel.spacing = unit(3, "lines")
+     )->rho
+
+summarized%>%filter(parameter=="rho")%>%ggplot(aes(x=as.numeric(Agegroup),y=posteriorMean,color=age))+geom_jitter(alpha=0.1)+
+  stat_summary(fun.data="mean_cl_boot",geom="pointrange")+geom_hline(yintercept = 1,size=1)+
+  scale_x_continuous(name="Adolescence Stage",breaks = breaks,labels=labels2)+
+  scale_color_viridis_c()+
+  coord_cartesian(ylim=c(0,2))+
+  ggtitle(expression(lambda))+
+  stat_smooth(method="lm",color="black")+theme_minimal(14)+
+     theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12)
+        #panel.spacing = unit(3, "lines")
+     )->lambda
+
+summarized%>%filter(parameter=="UncertaintyMulti"|parameter=="UncertaintyMulti_Risk")%>%ggplot(aes(x=as.numeric(Agegroup),y=posteriorMean,color=age))+geom_jitter(alpha=0.1)+
+  stat_summary(aes(shape=parameter),fun.data="mean_cl_boot",geom="pointrange",position=position_dodge(0.95))+geom_hline(yintercept = 1,size=1)+
+  scale_x_continuous(name="Adolescence Stage",breaks = breaks,labels=labels2)+
+  scale_color_viridis_c()+
+  ggtitle(expression(psi))+
+  stat_smooth(aes(group=parameter,linetype=parameter),method="lm",color="black")+theme_minimal(14)+
+     theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12)
+        #panel.spacing = unit(3, "lines")
+     )->psi
+
+leg=get_legend(psi)
+cowplot::plot_grid(lambda+guides(color=F)+theme(axis.title.x = element_text(color="white")),
+                    rho+guides(color=F)+theme(axis.title.y = element_blank()),
+                   psi+guides(color=F,shape=F,linetype=F)+theme(axis.title.y = element_blank(),axis.title.x=element_text(color="white")),
+                   leg,rel_widths = c(1,1,1,1),ncol=4)
+```
+
+
+# Gamble Level Params
+
+```{r}
+GambleParams<-tibble()
+for(i in 1:5){
+  MarbleData2<-MarbleData%>%filter(Agegroup==Agegroups[i])#Bin_Update_Data<-Bin_Update_Data[Bin_Update_Data$typeRA=="1",]# keep only The Risk 
+  subs=unique(MarbleData2$subject)
+  NSubs=length(subs)
+  Gamble=unique(MarbleData2$probGamble)
+  # print(Gamble)
+  nGamble=length(Gamble)
+  AllModels[[i]]%>%tidybayes::spread_draws(gamble_Pred[1:NSubs,1:nGamble],kappa[1:NSubs,1:nGamble])%>%
+    mutate(subject=subs[as.numeric(`1:NSubs`)],
+           probGamble=Gamble[as.numeric(`1:nGamble`)]
+          )%>%
+    bind_rows(GambleParams)->GambleParams
+}
+
+summarizedGamble<-GambleParams%>%left_join(MarbleData%>%select(age,subject),by=c("subject"))%>%group_by(subject,probGamble,age)%>%
+  dplyr::summarise(
+    posteriorMean=mean(gamble_Pred),
+    kappa=mean(kappa)
+  )%>%ungroup()
+
+summarizedGamble%>%mutate(
+  alpha=kappa*probGamble,
+  beta=kappa*(1-probGamble)
+)->alpha_beta_risk
+
+ggplot()+stat_summary(data=summarizedGamble,aes(x=as.numeric(probGamble),y=posteriorMean,color="postPred"),fun.data = mean_cl_boot,geom="pointrange")+
+  stat_summary(data=MarbleData,aes(x=as.numeric(probGamble),y=as.numeric(PercentBlueEstimate)/100,color="subject"),fun.data = mean_cl_boot,geom="pointrange")+#geom_jitter(data=MarbleData,aes(x=as.numeric(probGamble),y=as.numeric(PercentBlueEstimate)/100),alpha=0.01,shape=1)+
+  geom_point(data=summarizedGamble,aes(x=as.numeric(probGamble),y=as.numeric(probGamble),color="truth"),shape=3)+scale_x_continuous("Actual Probability")+
+  scale_y_continuous("Esimate")+
+  scale_color_manual(name="Aggregate Measures",breaks =c("postPred","subject","truth"),labels=c("Subject estimate:\nmodel prediction","Subject estimate","True probability"), values = c('deepskyblue','black',"red"))+theme_minimal(14)
+```
+
+# Trail Level Predictives
+
+```{r}
+MarbleData%>%
+  group_by(subject)%>%
+  dplyr::mutate(trials = row_number(),
+         OtherChoseRisk=case_when(
+           OtherChoseRisk=="1"~"3",
+           OtherChoseRisk=="NULL"~"2",
+           OtherChoseRisk=="0"~"1"
+         )
+  )%>%ungroup()->MarbleData
+
+PostPred<-tibble()
+for(i in 1:5){
+  MarbleData2<-MarbleData%>%filter(Agegroup==Agegroups[i])#Bin_Update_Data<-Bin_Update_Data[Bin_Update_Data$typeRA=="1",]# keep only The Risk 
+  subs=unique(MarbleData2$subject)
+  NSubs=length(subs)
+  nTrials=max(MarbleData2$Trial_id)
+  # print(Gamble)
+  AllModels[[i]]%>%tidybayes::spread_draws(y_pred[1:NSubs,1:nTrials])%>%
+    mutate(subject=subs[as.numeric(`1:NSubs`)])%>%
+    bind_rows(PostPred)->PostPred
+}
+
+PostPred%>%group_by(subject,`1:nTrials`)%>%dplyr::summarize(
+  meanPred=mean(y_pred)
+)%>%ungroup()%>%`colnames<-`(c("subject", "trials", "meanPred"))->meanPredictions
+
+summarizedPostPred<-MarbleData%>%left_join(meanPredictions%>%select(subject,meanPred,trials),by=c("subject","trials"))
+
+```
+
+# Data & posterior Predictives
+looks amazing
+```{r fig.width=10}
+wholePlotLabs<-c(
+  "0"="pre\nadolescence",
+  "1"="early\nadolescence",
+  "2"="mid\nadolescence",
+  "3"="late\nadolescence",
+  "4"="post\nadolescence"
+)
+
+summarizedPostPred%>%ggplot()+
+  stat_summary(aes(x=as.numeric(OtherChoseRisk),y=ChooseRisk,color="Subjects:\n  mean + 95CI\n"),fun.data = mean_cl_boot,geom="pointrange",position = position_dodge(0.5),shape=1)+
+  stat_summary(aes(x=as.numeric(OtherChoseRisk)+0.05,y=meanPred,color="Posterior Prediction:\n mean + 95CI\n"),fun.data = mean_cl_boot,geom="pointrange",position = position_dodge(0.5),shape=1)+  
+  scale_x_continuous(name="Condition",breaks=c(1,2,3),labels=c("Other-Safe","Solo","Other-Risk"))+
+  ylab("% Risky Choice")+
+  ggtitle("Behavioral Results + Model Predictions")+
+ scale_color_manual(name="Aggregate Measures",breaks =c("Subjects:\n  mean + 95CI\n",
+                                                        "Posterior Prediction:\n mean + 95CI\n"),
+                    values = c('deepskyblue','black'))+
+  scale_shape_discrete(name="Condition",breaks=c("1","2","3"),labels=c("Other-Safe","Solo","Other-Risk"))+
+  facet_grid(.~Agegroup,labeller=labeller(Agegroup=wholePlotLabs))+
+  guides(shape=F)+
+  theme_minimal_hgrid(14)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, vjust=2.12),
+        panel.spacing = unit(2, "lines")
+        )
+
+```
+
+# Uncertainty Social Influence Relationship
+
+```{r}
+summarizedPostPred%>%left_join(summarized%>%
+                                 pivot_wider(id_cols=subject,names_from = parameter,values_from = posteriorMean),
+                               by=c("subject"))->ParamsPredsSubs
+library(gsubfn)
+
+ParamsPredsSubs%>%mutate(PercentBlueShownRel=as.numeric(as.character(probGamble)))%>%
+  left_join(alpha_beta_risk,by=c("subject","probGamble"))%>%mutate(
+    alpha=case_when(DFE1DFD0==1~sapply(strapply(blue_marbles, "\\d+", as.numeric), sum)^alpha_add,
+    TRUE~alpha),
+    beta=case_when(DFE1DFD0==1~sapply(strapply(red_marbles, "\\d+", as.numeric), sum)^alpha_add,
+    TRUE~beta)
+    )%>%mutate(Variance=((alpha*beta)/((alpha+beta)^2*(alpha+beta+1))))->Uncertainty_AllData
+```
+
+not much :( 
+```{r}
+  Uncertainty_AllData%>%group_by(subject,age.x,Agegroup,DFE1DFD0)%>%dplyr::summarise(
+  meanVar=mean(Variance),
+  SocialRisk=mean(UncertaintyMulti_Risk),
+  SocialRiskUnc=mean(UncertaintyMulti)
+)%>%mutate(SI=case_when(DFE1DFD0==1~SocialRiskUnc,
+           DFE1DFD0==0~SocialRisk)
+)%>%ggplot(aes(x=meanVar,y=SI,color=Agegroup))+geom_point()+
+  geom_smooth(method="lm")+
+  facet_grid(.~DFE1DFD0)
+```
+
+
+
+
+

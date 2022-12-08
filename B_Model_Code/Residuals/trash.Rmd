@@ -1,0 +1,299 @@
+---
+title: "OldStuff"
+author: "Simy"
+date: "12/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+
+
+# Uncertainty Social Influence Relationship: All BS
+
+```{r}
+SI%>%
+  ggplot(aes(x=Variance,y=Social_Influence,color=as.factor(Agegroup)))+
+  geom_point(alpha=0.5)+
+  stat_smooth(method="lm")+
+  scale_color_viridis_d(name="age")+
+  scale_y_continuous(name=expression("Posterior "*psi))+
+  theme_minimal(14)
+
+#facet_grid(~DFE1DFD0)
+
+```
+
+```{r fig.width=3}
+summarizedPostPred%>%left_join(summarized%>%
+                                 pivot_wider(id_cols=subject,names_from = parameter,values_from = posteriorMean),
+                               by=c("subject"))->ParamsPredsSubs
+
+
+unique(ParamsPredsSubs$subject)
+library(gsubfn)
+library(brms)
+
+ParamsPredsSubs%>%mutate(PercentBlueShownRel=as.numeric(as.character(probGamble)))%>%
+  left_join(alpha_beta_risk,by=c("subject","probGamble"))%>%
+  mutate(Variance=((alpha*beta)/((alpha+beta)^2*(alpha+beta+1))))->Uncertainty_AllData
+#thats only a sanitycheck.
+#brm(alpha_add~Variance,data=Uncertainty_AllData)
+
+Uncertainty_AllData%>%mutate(Social_Influence=case_when(
+  (DFE1DFD0==1& OtherChoseRisk==1)~UncertaintyMulti_risk,
+  (DFE1DFD0==1& OtherChoseRisk==0)~UncertaintyMulti_safe,
+  (DFE1DFD0==0& OtherChoseRisk==1)~UncertaintyMulti_Risk_risk,
+  (DFE1DFD0==0& OtherChoseRisk==0)~UncertaintyMulti_Risk_safe
+))%>%group_by(Social_Influence,subject)->SI
+
+
+#now i need to make sure that Variance predicts the correct value.
+
+SI_Risk<-brm(Social_Influence~Variance,data=SI%>%filter(DFE1DFD0==0))
+SI_Uncertain<-brm(Social_Influence~Variance,data=SI%>%filter(DFE1DFD0==1))
+
+SI_Uncertain_RandomSubs<-brm(Social_Influence~Variance+(1|subject),data=SI)
+
+SI_Model<-brm(Social_Influence~Variance,data=SI)
+
+
+```
+## Including Plots
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# compute individual priors
+```{r}
+
+#####Here i first take the gamble level parameters and join them all to the marble data frame.
+#####Then i use the subject level paramters in combination with single trials estimates to get a prior utility distribution (before social information)
+#####Per subject.
+#####
+
+
+
+summarizedGamble%>%
+  left_join(.,MarbleData,by=c("subject","probGamble"))%>%
+  left_join(.,summarized%>%pivot_wider(names_from = "parameter",values_from="posteriorMean"))%>%rowwise()%>%dplyr::mutate(
+    alpha_prior=case_when(
+      (as.character(DFE1DFD0)=="0")~probGamble*(kappa),
+      (as.character(DFE1DFD0)=="1")~sum(as.numeric(unlist(strsplit(as.character(blue_marbles),split = ","))))^alpha_add
+    ),
+    beta_prior=case_when(
+      (as.character(DFE1DFD0)=="0")~(1-probGamble)*(kappa),
+      (as.character(DFE1DFD0)=="1")~sum(as.numeric(unlist(strsplit(as.character(red_marbles),split = ","))))^alpha_add
+    ),
+    #TRUE~ 1
+  )%>%mutate(alpha_posterior=case_when(
+    (as.character(DFE1DFD0)=="1" & as.character(OtherChoseRisk)=="1")~alpha_prior*UncertaintyMulti_risk,
+    (as.character(DFE1DFD0)=="0" & as.character(OtherChoseRisk)=="1")~alpha_prior*UncertaintyMulti_Risk_risk,
+    TRUE~alpha_prior
+  ),
+  beta_posterior=case_when(
+    (as.character(DFE1DFD0)=="1" & as.character(OtherChoseRisk)=="0")~beta_prior*UncertaintyMulti_safe,
+    (as.character(DFE1DFD0)=="0" & as.character(OtherChoseRisk)=="0")~beta_prior*UncertaintyMulti_Risk_safe,
+    TRUE~beta_prior
+  )
+  )->omg
+
+
+###
+###
+###
+###
+###\begin{align}
+#\alpha &= \omega (\kappa - 2) + 1\\
+#\beta  &= (1 - \omega)(\kappa - 2) + 1
+#\end{align}
+###
+###
+
+
+
+makeBetaDensity<-function(alpha_prior,beta_prior){
+  return(dbeta(seq(0,1,length.out = 100),alpha_prior,beta_prior))
+}
+
+betaPriorDensities=list()
+betaPosteriorDensities=list()
+for(i in 1:length(omg$subject)){
+  betaPriorDensities[[i]]=makeBetaDensity(omg$alpha_prior[i],omg$beta_prior[i])
+  betaPosteriorDensities[[i]]=makeBetaDensity(omg$alpha_posterior[i],omg$beta_posterior[i])
+}
+
+Priors<-do.call("rbind",betaPriorDensities)
+
+Priors%>%as_tibble()%>%mutate(subject=omg$subject,
+                              Agegroup=omg$Agegroup,
+                              DFE1DFD0=omg$DFE1DFD0,
+                              probGamble=omg$probGamble,
+                              uniqueObs=row_number())%>%
+  pivot_longer(cols = c(-subject,-Agegroup,-DFE1DFD0,-uniqueObs,-probGamble),names_to = "x",values_to="dens")%>%filter(DFE1DFD0==0)%>%
+  mutate(x2=as.numeric(parse_number(x)))%>%
+  ggplot(aes(x=x2,y=dens,color=Agegroup))+
+  geom_line(aes(group=uniqueObs),color="grey",alpha=0.1,size=0.2)+
+  stat_summary(geom="line",fun.y="mean")+
+  theme_cowplot()+
+  ggtitle("Priors - Risk")+
+  facet_grid(.~probGamble)
+
+Priors%>%as_tibble()%>%mutate(subject=omg$subject,
+                              Agegroup=omg$Agegroup,
+                              DFE1DFD0=omg$DFE1DFD0,
+                              probGamble=omg$probGamble,
+                              uniqueObs=row_number())%>%
+  pivot_longer(cols = c(-subject,-Agegroup,-DFE1DFD0,-uniqueObs,-probGamble),names_to = "x",values_to="dens")%>%filter(DFE1DFD0==1)%>%
+  mutate(x2=as.numeric(parse_number(x)))%>%
+  ggplot(aes(x=x2,y=dens,color=Agegroup))+
+  geom_line(aes(group=uniqueObs),color="grey",alpha=0.1,size=0.2)+
+  stat_summary(geom="line",fun.y="mean")+
+  theme_cowplot()+
+  ggtitle("Priors - Unc")+
+  facet_grid(.~probGamble)
+
+
+
+
+
+
+
+
+Posteriors<-do.call("rbind", betaPosteriorDensities)
+
+#Posteriors%>%mutate(case_when)
+
+Posterior_Densities<-Posteriors%>%as_tibble()%>%mutate(subject=omg$subject,
+                                                       Agegroup=omg$Agegroup,
+                                                       age=omg$age,
+                                                       DFE1DFD0=omg$DFE1DFD0,
+                                                       probGamble=omg$probGamble,
+                                                       uniqueObs=row_number(),
+                                                       OtherRisk=omg$OtherChoseRisk)%>%
+  pivot_longer(cols = c(-subject,-Agegroup,-DFE1DFD0,-uniqueObs,-probGamble, -OtherRisk,-age),names_to = "x",values_to="dens")%>%mutate(
+    dens=case_when((is.infinite(dens)&x=="V1")~lead(dens,1),# if for some reason infinetes are produced; make use of the autocorrelations
+                   (is.infinite(dens)&x=="V100")~lag(dens,1),
+                   TRUE~dens)
+  )
+
+
+Posterior_Densities%>%filter(DFE1DFD0==0 & OtherRisk==1)%>%
+  mutate(x2=as.numeric(parse_number(x)))%>%
+  ggplot(aes(x=x2,y=dens,linetype=Agegroup))+
+  geom_line(aes(group=uniqueObs,color=age),alpha=0.1,size=0.2)+
+  stat_summary(geom="line",fun.y="mean")+
+  theme_cowplot()+
+  scale_color_viridis_c()+
+  ggtitle("Posteriors - Risk, Other chose Risk")+
+  facet_grid(.~probGamble)
+
+Posterior_Densities%>%filter(DFE1DFD0==0 & OtherRisk==0)%>%
+  mutate(x2=as.numeric(parse_number(x)))%>%
+  ggplot(aes(x=x2,y=dens,linetype=Agegroup))+
+  geom_line(aes(group=uniqueObs,color=age),alpha=0.1,size=0.2)+
+  stat_summary(geom="line",fun.y="mean")+
+  theme_cowplot()+
+  scale_color_viridis_c()+
+  ggtitle("Posteriors - Risk, Other chose Safe")+
+  facet_grid(.~probGamble)
+
+Posterior_Densities%>%filter(DFE1DFD0==1 & OtherRisk==1)%>%
+  mutate(x2=as.numeric(parse_number(x)))%>%
+  ggplot(aes(x=x2,y=dens,linetype=Agegroup))+
+  geom_line(aes(group=uniqueObs,color=age),alpha=0.1,size=0.2)+
+  stat_summary(geom="line",fun.y="mean")+
+  theme_cowplot()+
+  scale_color_viridis_c()+
+  ggtitle("Posteriors - Uncertainty, Other chose Risk")+
+  facet_grid(.~probGamble)
+
+Posterior_Densities%>%filter(DFE1DFD0==1 & OtherRisk==0)%>%
+  mutate(x2=as.numeric(parse_number(x)))%>%
+  ggplot(aes(x=x2,y=dens,linetype=Agegroup))+
+  geom_line(aes(group=uniqueObs,color=age),alpha=0.1,size=0.2)+
+  stat_summary(geom="line",fun.y="mean")+
+  theme_cowplot()+
+  scale_color_viridis_c()+
+  ggtitle("Posteriors - Uncertainty, Other chose Safe")+
+  facet_grid(.~probGamble)
+
+# 
+# 
+# ah$subject=omg$subject
+# 
+# ggplot(aes(x=age,y=value,color=as.character(DFE1DFD0)))+
+#   stat_summary(geom = "bar",fun.y = "mean",position = position_dodge(0.9))+
+#   stat_summary(geom="pointrange",fun.data="mean_cl_boot",position = position_dodge(0.9))+
+#   facet_grid(.~name)+theme_cowplot()+ggtitle("Avg Beta params prior and posterior")
+
+```
+
+# Difference Distributions
+
+```{r}
+Posteriors2<-Posteriors%>%as_tibble()%>%mutate(subject=omg$subject,
+                                               Agegroup=omg$Agegroup,
+                                               age=omg$age,
+                                               DFE1DFD0=omg$DFE1DFD0,
+                                               probGamble=omg$probGamble,
+                                               uniqueObs=row_number(),
+                                               OtherRisk=omg$OtherChoseRisk)%>%
+  pivot_longer(cols = c(-subject,-Agegroup,-DFE1DFD0,-uniqueObs,-probGamble,-OtherRisk,-age),names_to = "x",values_to="Posterior_dens")
+
+Priors2<-Priors%>%as_tibble()%>%mutate(subject=omg$subject,
+                                       Agegroup=omg$Agegroup,
+                                       age=omg$age,
+                                       DFE1DFD0=omg$DFE1DFD0,
+                                       probGamble=omg$probGamble,
+                                       uniqueObs=row_number(),
+                                       OtherRisk=omg$OtherChoseRisk)%>%
+  pivot_longer(cols = c(-subject,-Agegroup,-DFE1DFD0,-uniqueObs,-probGamble,-OtherRisk,-age),names_to = "x",values_to="Prior_dens")
+
+Diff=Posteriors2
+Diff%>%mutate(Prior_dens=Priors2$Prior_dens)%>%rowwise()%>%mutate(diff=Posterior_dens-Prior_dens)%>%
+  filter(DFE1DFD0==1 & OtherRisk==1)%>%
+  mutate(x2=as.numeric(parse_number(x)))%>%
+  ggplot(aes(x=x2,y=diff,linetype=Agegroup))+
+  geom_line(aes(group=uniqueObs),alpha=0.1,size=0.2)+
+  stat_summary(geom="line",fun.y="mean")+
+  scale_color_viridis_c()+
+  theme_cowplot()+
+  ggtitle("Posteriors - Unc Other chose safe")+
+  facet_grid(.~probGamble)
+```
+
+# Kullback Leibler
+
+```{r fig.width=12,fig.height=3}
+Priors2%>%mutate(Posterior_dens=Posterior_Densities$dens)%>%
+  group_by(subject,DFE1DFD0,probGamble,OtherRisk,Agegroup,age)%>%
+  dplyr::summarise(DKL_PriorPosterior=LaplacesDemon::KLD(Prior_dens,Posterior_dens)%>%.$mean.sum.KLD)%>%
+  filter(OtherRisk!="NULL")%>%
+  ggplot(aes(x=as.numeric(age),y=(DKL_PriorPosterior),color=OtherRisk))+
+  #geom_jitter(aes(shape=DFE1DFD0,fill=OtherRisk),alpha=0.1)+
+  geom_smooth(method="lm")+
+  stat_summary(aes(shape=(DFE1DFD0)),geom="pointrange",position=position_dodge(0.9),fill="white")+
+  scale_shape_manual(breaks=c(0,1),values=c(23,25))+
+  facet_grid(DFE1DFD0~probGamble)
+# meanD_Posterior=mean(Posterior_dens))
+```
