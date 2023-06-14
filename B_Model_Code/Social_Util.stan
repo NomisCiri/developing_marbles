@@ -92,17 +92,9 @@ parameters {
 	//individual.
 	real rho_p[N];
 	real alpha_add_p[N];
-	
 	// Social Parameters
-	real<lower=0> psi_safe[N];
-	real<lower=0> psi_Risk_safe[N];
-
-	real<lower=0> psi_risk[N];
-	real<lower=0> psi_Risk_risk[N];
 	//
 	real<lower=0> kappa[N,NGambles];
-	//real<lower=1,upper=20> beta_shape[N,NGambles];
-	//real<lower=0,upper=1> trembl;
 }
 
 transformed parameters {
@@ -139,14 +131,10 @@ model {
 	// individual parameters w/ Matt trick
 	// I define the distributions in the loop bc of my nested data i have too many dimensions for vectorizing.
 	for (i in 1:N) {
-  	  //psi[i]
+  	  //UncertaintyMulti[i]
   		rho_p[i] ~ normal(0, 1.0);
   		alpha_add_p[i] ~ normal(0,1.0);
       //centred parametization works for these parameters. 
-  		psi_risk[i] ~ normal(1,5);
-  		psi_Risk_risk[i] ~ normal(1,5);
-  		psi_safe[i] ~ normal(1,5);
-  		psi_Risk_safe[i] ~ normal(1,5);
   		// for estiamting the variance parameter.
   		  //alpha_shape[i,gambles]~gamma(2,2);//lets see.
   		for (gambles in 1:NGambles){//gambleUncertainty Loop
@@ -166,12 +154,7 @@ model {
   			  //first compute utilities here. 
   			  U_safe  = pow(safe_payoff[i, t], rho[i]);
   			  U_risky = pow(risky_payoff[i, t], rho[i]);
-  				//SocialInfoBlock: Overwrite the shape parameters
-  				if (condition[i, t] == 1) {  // safe-safe
-    				newBeta=newBeta+psi_Risk_safe[i];// beta to the power of Social Info
-  				}if (condition[i, t] == 3) {  // risky-risky
-    				newAlpha=newAlpha+psi_Risk_risk[i];//alpha to the power of Social Info				 }
-  				  }//end Social
+  
   			 }//end  	Risk
     		 if(risk1Unc0[i, t]==1){// is it an uncertain trial?
     		  newAlpha=pow(Sucess[i,t],alpha_add[i]);
@@ -181,17 +164,10 @@ model {
     			//beta_rng(alpha_total,beta_total)
     			U_safe  = pow(safe_payoff[i, t], rho[i]);
     			U_risky = pow(risky_payoff[i, t], rho[i]);
-    			//socialinfo Block: Overwrite the shape parameters
-    			if (condition[i, t] == 1) {  // safe-safe
-      			newBeta=newBeta+psi_safe[i];// beta to the power of Social Info
-    			}if (condition[i, t] == 3) {  // risky-risky
-      			newAlpha=newAlpha+psi_risk[i];//alpha to the power of Social Info
-    			}
     			// a bernoulli distributed random variable.
     		}//end Uncertain
     		
-    		  //print(choice[i, t])
-    			choice[i, t] ~ bernoulli(1-generalized_beta_cdf(U_safe, newAlpha,newBeta,U_risky));
+    	choice[i, t] ~ bernoulli_logit()
   	} //endTrail
   }//endSubs
 }//endModel
@@ -200,15 +176,15 @@ model {
 
 generated quantities {
   // For log likelihood calculation
-  real log_lik[N,T];
+  real log_lik[N];
   // For posterior predictive check
   real y_pred[N,T];
   real gamble_Pred[N,NGambles];
   // Set all posterior predictions to 0 (avoids NULL values)
     for (i in 1:N) {
+      log_lik[i]=0;
       for (t in 1:T) {
         y_pred[i,t] = -1;
-        log_lik[i,t]=0;
       }
     }
 
@@ -226,12 +202,6 @@ generated quantities {
 			  //first compute utilities here. 
 			  U_safe  = pow(safe_payoff[i, t], rho[i]);
 			  U_risky = pow(risky_payoff[i, t], rho[i]);
-				//SocialInfoBlock: Overwrite the shape parameters
-				if (condition[i, t] == 1) {  // safe-safe
-  				newBeta=newBeta+psi_Risk_safe[i];// beta to the power of Social Info
-				}if (condition[i, t] == 3) {  // risky-risky
-  				newAlpha=newAlpha+psi_Risk_risk[i];//alpha to the power of Social Info
-				 }
 				}//end Risk
   		 if(risk1Unc0[i, t]==1){// is it an uncertain trial?
         real socialAlphaUnc;
@@ -244,13 +214,8 @@ generated quantities {
   			U_safe  = pow(safe_payoff[i, t], rho[i]);
   			U_risky = pow(risky_payoff[i, t], rho[i]);
   			//socialinfo Block: Overwrite the shape parameters
-  			if (condition[i, t] == 1) {  // safe-safe
-    			newBeta=newBeta+psi_safe[i];// beta to the power of Social Info
-  			}if (condition[i, t] == 3) {  // risky-risky
-    			newAlpha=newAlpha+psi_risk[i];//alpha to the power of Social Info
-  			}
   		}//end Uncertain
-	      log_lik[i,t]= bernoulli_lpmf(choice[i,t]|1-generalized_beta_cdf(U_safe, newAlpha,newBeta,U_risky));
+	      log_lik[i]+= bernoulli_lpmf(choice[i,t]|1-generalized_beta_cdf(U_safe, newAlpha,newBeta,U_risky));
 		y_pred[i, t] = bernoulli_rng(1-generalized_beta_cdf(U_safe, newAlpha,newBeta,U_risky));// each choice is predicted as a bernoulli distributed random variable.		} //endTrail
 	} //endSub
 }//end PostPred
