@@ -35,6 +35,7 @@ parameters {
   // Define parameters based on their correlation and means
   vector[n_params] mu_pars;            // hyperprior means
   vector<lower=0>[n_params] sig;                // hyperprior variances
+  vector<lower=0, upper=1>[N] trembl;
   cholesky_factor_corr[n_params] l_omega;   // prior correlation of parameters
   matrix[n_params,N] scale; // prior scaling for each parameter
   matrix<lower=1>[unc,N] kappas;// no noncentered parametrization for kappa bc distribution is not normal
@@ -84,14 +85,13 @@ transformed parameters {
       alpha[ppt][trial]=p_gamble_est[ppt,trial]*kappas[risk1_Unc2[ppt,trial],ppt];
       beta[ppt][trial]=(1-p_gamble_est[ppt,trial])*kappas[risk1_Unc2[ppt,trial],ppt];
       // update belief based on social info
-      // just optimal updating
-      alpha[ppt][trial]+=1 *social_info_risky[ppt,trial]*social_trial[ppt,trial];
-      beta[ppt][trial]+=1 *social_info_safe[ppt,trial]*social_trial[ppt,trial];
       // get updated mean
       probs[ppt][trial]=alpha[ppt][trial]/(alpha[ppt][trial]+beta[ppt][trial]);
       //riskypayoff
       U_risk[ppt][trial]=probs[ppt][trial]*pow(risky_payoff[ppt,trial],rho[ppt]);
-      ev_diffs[ppt][trial]=(U_risk[ppt][trial]-U_safe[ppt])/tau[ppt];
+      // if there was no social trial, do not apply trembling hand rule
+      ev_diffs[ppt][trial]=inv_logit((U_risk[ppt][trial]-U_safe[ppt])/tau[ppt])*(1-social_trial[ppt,trial])+
+      (1-trembl[ppt])*inv_logit(((U_risk[ppt][trial]-U_safe[ppt])/tau[ppt])/trembl[ppt])*(social_trial[ppt,trial]);
     }//end trials
   }//end ppts
 }//end transfomred params
@@ -110,12 +110,13 @@ model {
   to_vector(kappas)~gamma(1, 0.1);
   // hyperprior ppt level
   to_vector(scale) ~ std_normal();
+  trembl~beta(1,1);
   // prior correlation of parameters
   l_omega~lkj_corr_cholesky(1);   
   //predict choices
   for (ppt in 1:N){
-    //p_gamble_est[ppt,]~beta(alpha[ppt],beta[ppt]);//to properly estimate the rate
-    choice[ppt,1:t_subj[ppt]] ~ bernoulli_logit(ev_diffs[ppt][1:t_subj[ppt]]);
+    //difference to other models: logit is done outside of loop
+    choice[ppt,1:t_subj[ppt]] ~ bernoulli(ev_diffs[ppt][1:t_subj[ppt]]);
   }
 }//endModel
 
@@ -134,7 +135,7 @@ generated quantities {
     // loglik etc
     for (t_s in 1:t_subj[ppt]){
       y_pred[ppt,t_s]=bernoulli_logit_rng(ev_diffs[ppt][t_s]);
-      log_lik[ppt,t_s]=bernoulli_logit_lpmf(choice[ppt,t_s] | ev_diffs[ppt][t_s]);
+      log_lik[ppt,t_s]=bernoulli_lpmf(choice[ppt,t_s] | ev_diffs[ppt][t_s]);
     }
   }
 }

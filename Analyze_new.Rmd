@@ -60,7 +60,37 @@ MarbleData <- MarbleData %>% mutate(Agegroup = case_when(
 ),
 participant=subject
 )%>%select(-subject)
+```
 
+# modelcomparison
+```{r}
+# Model comparison
+logliks_util=list()
+logliks_rewsens=list()
+logliks_bayes=list()
+
+for (agegroup in 1:4){
+  logliks_util[[agegroup]]=readRDS(paste0("C_ModelFits/model1_age",agegroup,".rds"))%>%
+    loo::extract_log_lik()
+  logliks_rewsens[[agegroup]]=readRDS(paste0("C_ModelFits/model2_age",agegroup,".rds"))%>%
+    loo::extract_log_lik()
+  logliks_bayes[[agegroup]]=readRDS(paste0("C_ModelFits/model3_age",agegroup,".rds"))%>%
+    loo::extract_log_lik()
+}
+
+logliks_util_all<-do.call("cbind",logliks_util)
+logliks_rewsens_all<-do.call("cbind",logliks_rewsens)
+logliks_bayes_all<-do.call("cbind",logliks_bayes)
+
+util_loo<-logliks_util_all%>%loo()
+bayes_loo<-logliks_bayes_all%>%loo()
+rewsens_loo<-logliks_rewsens_all%>%loo()
+
+loo_compare(bayes_loo,util_loo,rewsens_loo)
+```
+
+# investigate model parameters of winning model
+```{r}
 param_df=NULL
 kappa_names=c("kappa_risk","kappa_unc")
 for (agegroup in 1:5){
@@ -118,8 +148,6 @@ joined_marbles%>%ggplot(aes(x=age,y=m))+
   facet_wrap(.~ param, scales="free")
 
 for_reg<-joined_marbles%>%pivot_wider(values_from = "m",names_from = "param")
-
-
 ```
 
 ```{r}
@@ -131,28 +159,7 @@ param_df%>%
 
 ```
 
-```{r}
 
-logliks_util=list()
-logliks_rewsens=list()
-logliks_bayes=list()
-
-for (agegroup in 1:4){
-  logliks_util[[agegroup]]=readRDS(paste0("C_ModelFits/model1_age",agegroup,".rds"))%>%loo::extract_log_lik()
-  logliks_rewsens[[agegroup]]=readRDS(paste0("C_ModelFits/model2_age",agegroup,".rds"))%>%loo::extract_log_lik()
-  logliks_bayes[[agegroup]]=readRDS(paste0("C_ModelFits/model3_age",agegroup,".rds"))%>%loo::extract_log_lik()
-}
-
-logliks_util_all<-do.call("cbind",logliks_util)
-logliks_rewsens_all<-do.call("cbind",logliks_rewsens)
-logliks_bayes_all<-do.call("cbind",logliks_bayes)
-
-util_loo<-logliks_util_all%>%loo()
-bayes_loo<-logliks_bayes_all%>%loo()
-rewsens_loo<-logliks_rewsens_all%>%loo()
-
-loo_compare(bayes_loo,util_loo,rewsens_loo)
-```
 
 # read in covariates
 Here In the beginning i read in the participants intelligence scores but do not do anything with it actually.
@@ -211,17 +218,10 @@ MarbleData$subject=as.numeric(as.character(MarbleData$subject))
 
 ```{r}
 
-#whats_left<-MarbleData%>%filter(Social1Ind0==1 & probGamble==0.675)%>%group_by(subject)%>%summarize(n=n())
-MarbleData<-MarbleData%>%
-  filter((!is.na(PercentBlueEstimate) | DFE1DFD0==0))%>% #&subject!=20) subject!=153 & subject!=158
-  filter(subject!=20 & subject!=153 & subject!=158 & subject!=85 & subject!=101)#Bin_Update_Data<-Bin_Update_Data[Bin_Update_Data$typeRA=="1",]
-# keep only The Risk trails.
 
 
 
 MarbleData%>%
-  filter((!is.na(PercentBlueEstimate) | DFE1DFD0==0))%>% #&subject!=20) subject!=153 & subject!=158
-  filter(subject==20 | subject==153 | subject==158 | subject==85 | subject==101)%>%
   mutate(EV=valueGamble*probGamble,
          stocdom=ifelse(EV<=5,"safe_dom","risky_dom"))%>%
   ggplot(aes(x=stocdom,y=ChooseRisk,color=stocdom))+
@@ -229,8 +229,6 @@ MarbleData%>%
 
 
 MarbleData%>%
-  filter((!is.na(PercentBlueEstimate) | DFE1DFD0==0))%>% #&subject!=20) subject!=153 & subject!=158
-  filter(subject!=20 & subject!=153 & subject!=158 & subject!=85 & subject!=101)%>%
   mutate(EV=valueGamble*probGamble,
          stocdom=ifelse(EV<=5,"safe_dom","risky_dom"))%>%
   ggplot(aes(x=stocdom,y=ChooseRisk,color=stocdom))+

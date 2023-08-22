@@ -106,12 +106,12 @@ model {
   //hyperprior means
   mu_pars[1]~ normal(0,0.1);   //rho
   mu_pars[2]~ std_normal();  // social
-  mu_pars[3:6]~ std_normal();  // social
+  mu_pars[3:2]~ std_normal();  // social
   //mu_pars[7:8]~ normal(10,2);  // kappa
   // hyperprior variances
   sig[1]~ gamma(1,10);   
   sig[2]~ gamma(1,1);  
-  sig[3:6]~ gamma(1,10); 
+  sig[3:2]~ gamma(1,10); 
   //sig[7:8]~ gamma(3, 5);
   to_vector(kappas)~gamma(1, 0.1);
   // hyperprior ppt level
