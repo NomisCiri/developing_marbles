@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #library(tidyverse)
 #library(rstan)
 #library(tidybayes)
-pacman::p_load(cowplot,brms,tidyverse,tidybayes,ggExtra,wes)
+pacman::p_load(cowplot,brms,tidyverse,tidybayes,ggExtra)
 #source("../../../R/Helpers/Start_Workflow.R")
 #source('../../../R/Helpers/R_rainclouds.R')
 #source('../../../R/Helpers/summarySE.R')
@@ -64,164 +64,48 @@ participant=subject
 
 # modelcomparison
 
-Which model describes the data best? We use leave one out cross validation.
 
-```{r}
-# Model comparison
-logliks_unc_only=list()
-logliks_ocu_unc_rs=list()
-logliks_ocu_rs=list()
-logliks_ocu_unc=list()
-logliks_rewsens=list()
-logliks_trembl=list()
-logliks_nosocial=list()
-logliks_socialUtil=list()
 
-for (agegroup in 1:5){
-  logliks_unc_only[[agegroup]]=readRDS(paste0("C_ModelFits/model1_age",agegroup,".rds"))%>%
-    loo::extract_log_lik()
-  
-  # logliks_ocu_unc_rs[[agegroup]]=readRDS(paste0("C_ModelFits/model_est_2_age",agegroup,".rds"))%>%
-  #   loo::extract_log_lik()
-  
-  logliks_ocu_rs[[agegroup]]=readRDS(paste0("C_ModelFits/model3_age",agegroup,".rds"))%>%
-    loo::extract_log_lik()
-  
-  # logliks_ocu_unc[[agegroup]]=readRDS(paste0("C_ModelFits/model4_age",agegroup,".rds"))%>%
-  #   loo::extract_log_lik()
-  
-  logliks_rewsens[[agegroup]]=readRDS(paste0("C_ModelFits/model5_age",agegroup,".rds"))%>%
-    loo::extract_log_lik()
-  
-  logliks_trembl[[agegroup]]=readRDS(paste0("C_ModelFits/model7_age",agegroup,".rds"))%>%
-    loo::extract_log_lik()
-  
-  # logliks_nosocial[[agegroup]]=readRDS(paste0("C_ModelFits/model9_age",agegroup,".rds"))%>%
-  #   loo::extract_log_lik()
-  
-  logliks_socialUtil[[agegroup]]=readRDS(paste0("C_ModelFits/model9_age",agegroup,".rds"))%>%
-    loo::extract_log_lik()
-}
-
-logliks_unc_only_all<-do.call("cbind",logliks_unc_only)
-#logliks_ocu_all<-do.call("cbind",logliks_ocu_unc_rs)
-logliks_ocu_rs_all<-do.call("cbind",logliks_ocu_rs)
-# logliks_ocu_unc_all<-do.call("cbind",logliks_ocu_unc)
-logliks_rewsens_all<-do.call("cbind",logliks_rewsens)
-logliks_trembl_all<-do.call("cbind",logliks_trembl)
-#logliks_nosocial_all<-do.call("cbind",logliks_nosocial)
-logliks_soc_Util_all<-do.call("cbind",logliks_socialUtil)
-
-```
-
-```{r}
-unc_only_loo<-logliks_unc_only_all%>%loo()
-#ocu_loo<-logliks_ocu_all%>%loo()
-ocu_rs_loo<-logliks_ocu_rs_all%>%loo()
-rewsens_loo<-logliks_rewsens_all%>%loo()
-trembl_loo<-logliks_rewsens_all%>%loo()
-social_util<-logliks_soc_Util_all%>%loo()
-
-# not sure why ot does not give me the names, but model 2 (which comes out best)
-# is a model that weights risky and safe social info differentially
-loo_compare(
-  unc_only_loo,
-  ocu_rs_loo,
-  rewsens_loo,
-  trembl_loo,
-  social_util
-)
-```
-
-# investigate model parameters of winning model
-```{r}
-param_df=NULL
-kappa_names=c("kappa_risk","kappa_unc")
-for (agegroup in 1:5){
-  # those subs break something... maybe not anymore
-  MarbleDataD <- MarbleData %>%group_by(participant)%>%
-    mutate(max_t=n())%>%
-    ungroup()%>%
-    filter(max_t==144)%>%
-    filter(Agegroup == Agegroups[agegroup])
-  subjList <- unique(MarbleDataD$participant) ######
-  
-  marble_mod=readRDS(paste0("C_ModelFits/model3_age",agegroup,".rds"))
-  # marble_mod%>%tidybayes::spread_draws(psis[risky_safe,ppt])->marble_psis
-  marble_mod%>%tidybayes::spread_draws(rho[ppt])->marble_rho
-  marble_mod%>%tidybayes::spread_draws(tau[ppt])->marble_tau
-  marble_mod%>%tidybayes::spread_draws(kappas[risk_unc,ppt])->marble_kappa
-  
-  psi_dummy=marble_psis%>%dplyr::group_by(ppt,risky_safe)%>%
-    dplyr::summarise(m=mean(psis)) %>%ungroup()%>%
-    mutate(
-      param=case_when(
-        risky_safe=="1"~"psi_safe",
-        risky_safe=="2"~"psi_risk"
-      ),
-      participant=subjList[ppt],
-      agegroup=agegroup
-    )%>%
-    select(-risky_safe)
-  
-  rho_dummy=marble_rho%>%group_by(ppt)%>%dplyr::summarise(m=mean(rho))%>%
-    mutate(agegroup=agegroup,param="rho",
-           participant=subjList[ppt]
-    )
-  
-  tau_dummy=marble_tau%>%group_by(ppt)%>%dplyr::summarise(m=mean(tau))%>%
-    mutate(agegroup=agegroup,param="tau",
-           participant=subjList[ppt]
-    )
-  
-  kappa_dummy=marble_kappa%>%group_by(ppt,risk_unc)%>%dplyr::summarise(m=mean(kappas))%>%
-    mutate(
-      agegroup=agegroup,
-      param=kappa_names[risk_unc],
-      participant=subjList[ppt],
-    )%>%select(-risk_unc)
-  
-  param_df=rbind(param_df,rho_dummy,tau_dummy,kappa_dummy,psi_dummy)
-  
-}
-MarbleData<-MarbleData%>%group_by(participant)%>%mutate(trial=row_number())%>%ungroup()
-joined_marbles=inner_join(MarbleData,param_df,by = "participant")
-
-joined_marbles%>%ggplot(aes(x=age,y=m))+
-  geom_point(aes(color=agegroup))+
-  stat_smooth(method="lm")+
-  facet_wrap(.~ param, scales="free")
-
-for_reg<-joined_marbles%>%pivot_wider(values_from = "m",names_from = "param")
-```
 # Make posterior predictives
 
-re-load winning model
+get trial wise choice probabilites for all models
+
 ```{r}
-pp_df=NULL
-for (agegroup in 1:5){
-  # those subs break something... maybe not anymore
-  MarbleDataD <- MarbleData %>%group_by(participant)%>%
-    mutate(max_t=n())%>%
-    ungroup()%>%
-    filter(max_t==144)%>%
-    filter(Agegroup == Agegroups[agegroup])
-  subjList <- unique(MarbleDataD$participant) ######
-  
-  marble_mod=readRDS(paste0("C_ModelFits/model3_age",agegroup,".rds"))
-  
-  pps<-marble_mod%>%tidybayes::spread_draws(y_pred[ppt,trial])
-  
-  pps_g<-pps%>%dplyr::group_by(ppt,trial)%>%
-    dplyr::summarise(pp=mean(y_pred))%>%
-    mutate(participant=subjList[ppt])%>%ungroup()%>%select(-ppt)
-  
-  pp_df=rbind(pp_df,pps_g)
+MarbleData<-MarbleData%>%
+  group_by(participant)%>%
+  mutate(trial=row_number())%>%
+  ungroup()
+
+pp_container<-list()
+models=c(1,3,5,7)
+cnt=1
+for (i in models){
+  pp_df=NULL
+  for (agegroup in 1:5){
+    # those subs break something... maybe not anymore
+    MarbleDataD <- MarbleData %>%group_by(participant)%>%
+      mutate(max_t=n())%>%
+      ungroup()%>%
+      filter(max_t==144)%>%
+      filter(Agegroup == Agegroups[agegroup])
+      subjList <- unique(MarbleDataD$participant) ######
+    
+    marble_mod=readRDS(paste0("C_ModelFits/model_est_",i,"_age",agegroup,".rds"))
+    
+    pps<-marble_mod%>%tidybayes::spread_draws(y_pred[ppt,trial])
+    
+    pps_g<-pps%>%dplyr::group_by(ppt,trial)%>%
+      dplyr::summarise(pp=mean(y_pred))%>%
+      mutate(participant=subjList[ppt])%>%ungroup()%>%select(-ppt)
+    
+    pp_df=rbind(pp_df,pps_g)
+  }
+  pp_container[[cnt]]=inner_join(MarbleData,pp_df,by = c("participant"="participant","trial"="trial"))
+  cnt=cnt+1
 }
 
-pp_df%>%ungroup()
-joined_marbles%>%ungroup()
-joined_marbles_pp=left_join(joined_marbles,pp_df,by = c("participant"="participant","trial"="trial"))
+saveRDS(pp_container,file = "A_RawData/pp_list.rds")
+
 ```
 
 
@@ -379,26 +263,34 @@ brms::brm(value~poly(age,2)+DFE1DFD0,data=DKLDummy%>%pivot_longer(cols=c(DKLRisk
 For this i estimate a multivariate regression.
 ```{r}
 library(brms)
-Paramters_wide<-joined_marbles_pp%>%select(param,m,participant,Agegroup,age)%>%unique()%>%
-  pivot_wider(names_from = "param",values_from = "m",id_cols = c("participant","Agegroup","age"))
+Paramters_wide<-joined_marbles_pp%>%
+  pivot_wider(names_from = "parameter",values_from = "posteriorMean",id_cols = c("subject","Agegroup","age"))
+
+Paramters_wide<-Paramters_wide%>%left_join(cftResults, by="subject")%>%left_join(numbersResults,by="subject")
 
 
-Paramters_wide%>%mutate(
-  linearAge=poly(as.numeric(age),3)[,1],
-  quadraticAge=-poly(as.numeric(age),3)[,2]
-)->Parameters_wide_poly
+Paramters_wide%>%mutate(linearAge=poly(as.numeric(age),3)[,1],
+                        quadraticAge=-poly(as.numeric(age),3)[,2],
+                        emergent=-poly(as.numeric(age),3)[,2],
+                        sigma_sq_riskRisk=sigma_sq_riskRisk,
+                        sigma_sq_riskUnc=sigma_sq_riskUnc)->Parameters_wide_poly
+#build "emergent age regressor"
+max_emergent=unique(Parameters_wide_poly[Parameters_wide_poly$quadraticAge==max(Parameters_wide_poly$quadraticAge),]$age)
+Parameters_wide_poly[Parameters_wide_poly$age>=max_emergent,]$emergent=max(Parameters_wide_poly$quadraticAge)
+Parameters_wide_poly%>%ggplot(aes(x=age,y=emergent))+geom_point()
 
-```
-
-```{r}
 # do not estimate residual correlations
-modelall<-bf(mvbind(kappa_risk,kappa_unc,rho,tau,psi_safe,psi_risk)~linearAge+quadraticAge)+set_rescor(T)
+modelall<-bf(mvbind(sigma_sq_riskRisk,
+                    sigma_sq_riskUnc,
+                    rho,
+                    psi_risk,
+                    psi_Risk_risk,
+                    psi_Risk_safe,
+                    psi_safe)~linearAge+quadraticAge)+set_rescor(T)
 # 
-parameter_model<-brm(modelall,data = Parameters_wide_poly,cores = 4,iter = 10000)
+ParameterModel3<-brm(modelall,data = Parameters_wide_poly,cores = 4,iter = 10000)
 
-```
 
-```{r}
 #brm(psi_Risk_safe~linearAge+quadraticAge,data=Parameters_wide_poly)
 
 #saveRDS(object = ParameterModel3,file = "C_ModelFits/ParameterInference.rds")

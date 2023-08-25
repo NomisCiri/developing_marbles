@@ -68,10 +68,10 @@ transformed parameters {
   rho=Phi_approx(mu_pars[1] + params_phi[,1])*2; 
   tau=exp(mu_pars[2] + params_phi[,2]);
   //social parameters
-  psis[1,1]=1+Phi_approx(mu_pars[3] + params_phi[,3])*10;
-  psis[2,1]=1+Phi_approx(mu_pars[4] + params_phi[,4])*10; 
-  psis[1,2]=1+Phi_approx(mu_pars[5] + params_phi[,5])*10; 
-  psis[2,2]=1+Phi_approx(mu_pars[6] + params_phi[,6])*10; 
+  psis[1,1]=Phi_approx(mu_pars[3] + params_phi[,3])*10;
+  psis[2,1]=Phi_approx(mu_pars[4] + params_phi[,4])*10; 
+  psis[1,2]=Phi_approx(mu_pars[5] + params_phi[,5])*10; 
+  psis[2,2]=Phi_approx(mu_pars[6] + params_phi[,6])*10; 
   //uncertainty_parameter must be at least 1, maximum 20
   //kappas[1]=mu_pars[7] + params_phi[,7]; 
   //kappas[2]=mu_pars[8] + params_phi[,8];

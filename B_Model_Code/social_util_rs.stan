@@ -25,8 +25,7 @@ data {
 
 transformed data {
   int soc=2;// how many social social_info_risk2_safe1s
-  int unc=2;// how many social social_info_risk2_safe1s
-  int n_params= soc+2;// number of parameters + 2 kappas
+  int n_params= soc+2;// number of parameters + rho and tau
 }
 
 parameters {
@@ -35,7 +34,6 @@ parameters {
   vector<lower=0>[n_params] sig;                // hyperprior variances
   cholesky_factor_corr[n_params] l_omega;   // prior correlation of parameters
   matrix[n_params,N] scale; // prior scaling for each parameter
-  matrix<lower=1>[unc,N] kappas;// no noncentered parametrization for kappa bc distribution is not normal
   // group predictors
 }
 
@@ -50,10 +48,7 @@ transformed parameters {
   vector<lower=0>[N] tau;  
   //model internal variables
   // makes N entries that each contain a vector of size T (trials)
-  vector<lower=0>[T] alpha[N];
-  vector<lower=0>[T] beta[N];
-  vector<lower=0, upper=1>[T] probs[N];
-  
+
   vector[T] ev_diffs[N];
   vector[T] U_risk[N];
   vector[T] U_safe;
@@ -69,33 +64,22 @@ transformed parameters {
   psis[1]=Phi_approx(mu_pars[3] + params_phi[,3])*10;
   psis[2]=Phi_approx(mu_pars[4] + params_phi[,4])*10; 
   //uncertainty_parameter must be at least 1, maximum 20
-  //kappas[1]=mu_pars[7] + params_phi[,7]; 
-  //kappas[2]=mu_pars[8] + params_phi[,8];
-  //kappas[2]=1+Phi_approx(mu_pars[8] + params_phi[,8])*20; 
   
   for (ppt in 1:N){
     //fill with dummy values because some trials are missing
     for (t in 1:T){
-      alpha[ppt][t]=1;
-      beta[ppt][t]=1;
-      probs[ppt][t]=0.5;
       ev_diffs[ppt][t]=-1;
       U_risk[ppt][t]=-1;
     }
     // Bayesian updating utility model
-    U_safe[ppt]=pow(5,rho[ppt]);    //safe payoff is always 5
     for (trial in 1:t_subj[ppt]){
       //calculate beta distribution parameters from rate (kappa) and estimated gamble probabilty
-      beta[ppt][trial]=(1-p_gamble_est[ppt,trial])*kappas[risk1_Unc2[ppt,trial],ppt];
-      alpha[ppt][trial]=p_gamble_est[ppt,trial]*kappas[risk1_Unc2[ppt,trial],ppt];
-      // update belief based on social info
-      // add psi to shape parameters based on dummycoded trial information
-      alpha[ppt][trial]+=psis[social_info_risk2_safe1[ppt,trial]][ppt]*social_info_risky[ppt,trial]*social_trial[ppt,trial];
-      beta[ppt][trial]+=psis[social_info_risk2_safe1[ppt,trial]][ppt]*social_info_safe[ppt,trial]*social_trial[ppt,trial];
-      // get updated mean
-      probs[ppt][trial]=alpha[ppt][trial]/(alpha[ppt][trial]+beta[ppt][trial]);
+      U_risk[ppt][trial]=p_gamble_est[ppt,trial]*pow(risky_payoff[ppt,trial],rho[ppt]);
+      U_safe[ppt]=pow(5,rho[ppt]);    //safe payoff is always 5
+      
+      U_risk[ppt][trial]+=psis[social_info_risk2_safe1[ppt,trial]][ppt]*social_info_safe[ppt,trial]*social_trial[ppt,trial];
+      U_safe[ppt]+=psis[social_info_risk2_safe1[ppt,trial]][ppt]*social_info_risky[ppt,trial]*social_trial[ppt,trial];
       //riskypayoff
-      U_risk[ppt][trial]=probs[ppt][trial]*pow(risky_payoff[ppt,trial],rho[ppt]);
       ev_diffs[ppt][trial]=(U_risk[ppt][trial]-U_safe[ppt])/tau[ppt];
     }//end trials
   }//end ppts
@@ -115,7 +99,6 @@ model {
   sig[2]~ gamma(1,1);  
   sig[3:4]~ gamma(1,10); 
   //sig[7:8]~ gamma(3, 5);
-  to_vector(kappas)~gamma(1, 0.1);
   // hyperprior ppt level
   to_vector(scale) ~ std_normal();
   // prior correlation of parameters

@@ -68,8 +68,8 @@ transformed parameters {
   rho=Phi_approx(mu_pars[1] + params_phi[,1])*2; 
   tau=exp(mu_pars[2] + params_phi[,2]);
   //social parameters
-  psis[1]=1+Phi_approx(mu_pars[3] + params_phi[,3])*10;
-  psis[2]=1+Phi_approx(mu_pars[4] + params_phi[,4])*10; 
+  psis[1]=Phi_approx(mu_pars[3] + params_phi[,3])*10;
+  psis[2]=Phi_approx(mu_pars[4] + params_phi[,4])*10; 
 
   for (ppt in 1:N){
     //fill with dummy values because some trials are missing
